@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta content="black" name=" apple-mobile-web-app-capable"/>
+    <title>物流商个人中心-专线管理</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet"/>
+    <link href="../css/common.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body class="but0 bgfff">
+
+<!--内容-->
+<!--头部-->
+<header>
+    <div class="in_top">
+        <div class="top_left">
+            <a href="javascript:;" class="reSP">
+                <span></span>
+            </a>
+        </div>
+        <div class="top_con">
+            <h2>专线管理</h2>
+        </div>
+        <div class="top_right">
+            <input type="button" value="管理">
+        </div>
+    </div>
+</header>
+<!--头部End-->
+<div class="container">
+    <div class="well_con line_con per_con">
+        <div class="well_list invo_list">
+            <div class="tit_LI" style="display: none">
+                <a class="a2">删除</a>
+                <a href="javascript:;" class="per_lineXZ">新增</a>
+            </div>
+            <div class="list_W invo_L">
+                <ul>
+                    <li>
+                        <span></span>
+                        <a href="javascript:;" class="per_lineDeta">北京 — 河北</a>
+                    </li>
+                    <li>
+                        <span></span>
+                        <a href="javascript:;" class="per_lineDeta">北京 — 河北</a>
+                    </li>
+                </ul>
+                <h6>最多添加3个服务区</h6>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!--内容End-->
+<script src="../script/api.js"></script>
+<script src="../script/swiper.js"></script>
+<script src="../script/app.js"></script>
+<script src="../script/jquery.js"></script>
+<script src="../script/city-picker.data.js"></script>
+<script src="../script/city-picker.js"></script>
+<script>
+    $(function(){
+        $(":button").click(function() {
+            $(".tit_LI").toggle('.slideDown');  // 改变显隐状态
+            $(this).val($(this).val()=="管理"?"完成":"管理"); // 改变按钮的文字说明
+        })
+
+        $('.per_con .invo_list .invo_L ul li span').on('click',function(){
+            $(this).toggleClass('active').siblings().removeClass('');
+            $('tit_LI').show()
+        })
+    })
+
+    apiready = function() {
+      api.parseTapmode();
+
+      var header = $api.dom('header'); // 获取 header 标签元素
+      var footer = $api.dom('footer'); // 获取 footer 标签元素
+      var section = $api.dom('.container');
+      var sectionH = $api.fixStatusBar(section);
+      var headerH = $api.fixStatusBar(header);
+    //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+      var footerH = $api.fixTabBar(footer);
+
+        api.addEventListener({
+            name:'keyback'
+        }, function(ret, err){
+          if (ret) {
+             api.closeWin({
+                 name: 'per_line'
+             });
+          }
+        });
+
+        $('.reSP').bind('click',function() {
+          api.closeWin({
+              name: 'per_line'
+          });
+
+        });
+        $('.per_lineXZ').bind('click',function () {
+          api.openWin({
+              name: 'per_lineXZ',
+              url: 'per_lineXZ.html',
+              pageParam: {
+                  name: 'test'
+              },
+
+              bounces:false
+          });
+        });
+
+        $('.per_lineDeta').bind('click',function () {
+          api.openWin({
+              name: 'per_lineDeta',
+              url: 'per_lineDeta.html',
+              pageParam: {
+                  name: 'test'
+              },
+
+              bounces:false
+          });
+        });
+
+      }
+
+
+</script>
+
+
+</body>
+</html>

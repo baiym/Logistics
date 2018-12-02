@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+	<meta content="black" name=" apple-mobile-web-app-capable" />
+	<title>个人中心</title>
+	<meta name="keywords" content="关键词">
+	<meta name="description" content="网站描述">
+	<link href="../css/api.css" rel="stylesheet" />
+	<link href="../css/common.css" rel="stylesheet" />
+	<link href="../css/style.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../css/swiper.css">
+	<link href="../css/city-picker.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+	<div id="root">
+		<!--内容-->
+		<!--头部-->
+		<header>
+			<div class="in_top cen_top">
+				<div class="top_left">
+					<a href="javascript:;">
+					</a>
+				</div>
+				<div class="top_con">
+					<h2>个人中心</h2>
+				</div>
+				<div class="top_right">
+					<a href="javascript:;">
+					</a>
+				</div>
+				<!-- <div class="top_right">
+					<a href="javascript:;" class="CE_edit">
+						<span></span>
+					</a>
+				</div> -->
+			</div>
+		</header>
+		<!--头部End-->
+		<div class="container">
+			<div class="cen_con">
+				<div class="my_tit" v-if="login_status == 1" @click="to_login">
+					<div class="head">
+						<img src="../image/157027562511100250.jpg" alt="" />
+						<h2>点击登录</h2>
+					</div>
+				</div>
+				<div class="my_tit" v-else>
+					<div class="head">
+						<img :src="userInfo.avatar" alt="" / @click="cen_edit_accnews_deta">
+						<h2 v-text="userInfo.nickname"></h2>
+					</div>
+				</div>
+				<div class="cen_main">
+					<ul class="list_C">
+						<li>
+							<a href="javascript:;" class="cen_order">我的订单</a>
+						</li>
+					</ul>
+				</div>
+				<div class="in-nav cen_nav">
+					<ul class="cen_last1H">
+						<li>
+							<a href="javascript:;" class="a1">等待商家</a>
+
+						</li>
+						<li>
+							<a href="javascript:;" class="a2">待付款</a>
+
+						</li>
+						<li>
+							<a href="javascript:;" class="a3">待收货</a>
+							<span>1</span>
+						</li>
+						<li>
+							<a href="javascript:;" class="a4">待评价</a>
+
+						</li>
+						<li>
+							<a href="javascript:;" class="a5">申请售后</a>
+
+						</li>
+					</ul>
+				</div>
+				<div class="cen_main cen_main2">
+					<ul class="list_C list_C2">
+						<li>
+							<a href="javascript:;" class="a1">发票管理</a>
+
+						</li>
+						<li>
+							<a href="javascript:;" class="a2">我的钱包</a>
+						</li>
+						<li>
+							<a href="javascript:;" class="a3">我的收藏</a>
+						</li>
+						<li>
+							<a href="javascript:;" class="a4">消息中心</a>
+						</li>
+						<li>
+							<a class="a5">分享应用</a>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+
+		<!--内容End-->
+
+		<!--弹框-->
+		<!--分享-->
+		<div class="bom_box bom_box5" style="display: none">
+			<div class="cen_BBox">
+				<div class="BBox">
+					<ul>
+						<li>
+							<a href="javascript:;"></a>
+						</li>
+						<li>
+							<a href="javascript:;"></a>
+						</li>
+						<li>
+							<a href="javascript:;"></a>
+						</li>
+						<li>
+							<a href="javascript:;"></a>
+						</li>
+					</ul>
+					<div class="cen_H">
+						<a class="a3">取消</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--分享-->
+
+		<!--弹框End-->
+	</div>
+
+	<script src="../script/api.js"></script>
+	<script src="../script/app.js"></script>
+	<script src="../script/jquery.js"></script>
+	<script src="../script/city-picker.data.js"></script>
+	<script src="../script/city-picker.js"></script>
+	<script src="../script/public.js"></script>
+	<script src="../script/vue.js"></script>
+	<script>
+		//			$(function() {
+		//				//分享
+		//				$(".cen_main2 .list_C li a.a5").on("click", function() {
+		//					$(".bom_box5").show()
+		//				})
+		//
+		//				$(".cen_BBox .cen_H .a3").on("click", function() {
+		//					$(".bom_box5").hide()
+		//				})
+		//			})
+
+		apiready = function() {
+
+			// 登录
+
+			api.parseTapmode();
+			var vm = new Vue({
+				el: '#root',
+				data: {
+					login_status: 1, //1未登录 2已登录
+					userInfo: {} //用户信息
+				},
+				methods: {
+					//上传头像
+					upload_avatar: function() {
+						var url = HOST + '/api/index/upFile';
+						var _this = this;
+						api.getPicture({
+							mediaValue: 'pic',
+							destinationType: 'url',
+							allowEdit: true,
+							saveToPhotoAlbum: false
+						}, function(ret) {
+							if (ret) {
+								var fileUrl = ret.data; //图片路径
+								api.ajax({
+									url: url,
+									method: 'post',
+									headers: {
+										'X-Requested-With': 'XMLHttpRequest'
+									},
+									data: {
+										files: {
+											file: fileUrl
+										}
+									}
+								}, function(ret) {
+									if (ret && ret.code == 1) {
+										var path = ret.data.path;//线上图片路径
+									}
+								});
+							}
+						});
+					},
+					//设置用户信息
+					upUser:function(){
+						var _this = this;
+						var url = HOST+'/api/user/upUser';
+						api.ajax({
+						    url: url,
+						    method: 'post',
+						    data: {
+						        values: {
+						            name: 'haha'
+						        }
+						    }
+						},function(ret, err){
+						    if (ret) {
+						        alert( JSON.stringify( ret ) );
+						    } else {
+						        alert( JSON.stringify( err ) );
+						    }
+						});
+
+					},
+					cen_edit_accnews_deta:function(){
+						api.openWin({
+						    name: 'cen_edit_accnews_deta',
+						    url: './cen_edit_accnews_deta.html',
+						    pageParam: {
+						        name: 'test'
+						    }
+						});
+
+					},
+					//登录
+					to_login: function() {
+						api.openWin({
+							name: 'sign',
+							url: './sign.html'
+						});
+					},
+					//初始化
+					init: function() {
+						var appToken = $api.getStorage('appToken');
+						var userInfo = $api.getStorage('userInfo');
+						if (appToken != '' && appToken != null) {
+							this.login_status = 2;
+							this.userInfo = userInfo;
+						}else{
+							this.login_status = 1;
+						}
+					}
+				},
+				created: function() {
+//					this.to_login();
+					var _this = this;
+					this.init();
+					api.addEventListener({
+						name: 'login'
+					}, function(ret, err) {
+						_this.init();
+					});
+					api.addEventListener({
+						name: 'logout'
+					}, function(ret, err) {
+						_this.init();
+					});
+				}
+			})
+			api.addEventListener({
+				name: 'keyback'
+			}, function(ret, err) {
+				api.toast({
+					msg: '再点一次退出应用',
+					duration: 2000,
+					location: 'bottom'
+				});
+				api.addEventListener({
+					name: 'keyback'
+				}, function(ret, err) {
+					api.closeWidget({
+						silent: true
+					});
+				});
+			});
+			var header = $api.dom('header'); // 获取 header 标签元素
+			var footer = $api.dom('footer'); // 获取 footer 标签元素
+			var headerH = $api.fixStatusBar(header);
+			var section = $api.dom('.container');
+			var sectionH = $api.fixStatusBar(section);
+			//最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+			var footerH = $api.fixTabBar(footer);
+			var arr_link = ['cenddsj_order', 'cendzf_order', 'cendsh_order', 'cenpj_order', 'censh_order'];
+			var arr_link2 = ['center_invoice', 'center_wallet', 'center_collection', 'center_news'];
+			$('.cen_last1H li').bind('click', function() {
+				arr_linkfun(arr_link[$(this).index()]);
+			})
+
+			$('.list_C2 li').bind('click', function() {
+				arr_linkfun(arr_link2[$(this).index()]);
+			})
+
+			function arr_linkfun(name) {
+				api.openWin({
+					name: name,
+					url: name + '.html',
+					pageParam: {
+						name: 'test'
+					},
+					bounces: false,
+					animation: {
+						type: "push", //动画类型（详见动画类型常量）
+						subType: "from_right", //动画子类型（详见动画子类型常量）
+						duration: 300 //动画过渡时间，默认300毫秒
+					}
+				});
+			}
+
+			$('.CE_edit').bind('click', function() {
+				api.openWin({
+					name: 'cen_edit',
+					url: 'cen_edit.html',
+					pageParam: {
+						name: 'test'
+					},
+
+					bounces: false
+				});
+			});
+
+			$('.cen_order').bind('click', function() {
+				api.openWin({
+					name: 'cen_order',
+					url: 'cen_order.html',
+					pageParam: {
+						name: 'test'
+					},
+
+					bounces: false
+				});
+			});
+
+		}
+	</script>
+
+</body>
+
+</html>

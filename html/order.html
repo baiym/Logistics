@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta content="black" name=" apple-mobile-web-app-capable" />
+    <title>下单</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet"/>
+    <link href="../css/common.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<!--头部-->
+    <header>
+        <div class="in_top">
+            <div class="top_left">
+              <a href="javascript:;" class="reSP">
+                  <span></span>
+              </a>
+            </div>
+            <div class="top_con">
+                <h2>下单</h2>
+            </div>
+
+        </div>
+    </header>
+<!--头部End-->
+    <div class="container">
+        <div class="order_con">
+            <div class="fix-banner">
+                <div class="in-banner swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="../image/in_banner.png" alt="" width="100%"/>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="../image/in_banner.png" alt="" width="100%"/>
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="../image/in_banner.png" alt="" width="100%"/>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination">
+                    </div>
+                </div>
+            </div>
+            <div class="in_main1">
+                <form action="" method="">
+                    <div class="big">
+                        <div class="big_S">
+                            <div class="docs-methods">
+                                <form class="form-inline">
+                                    <div id="distpicker">
+                                        <div class="form-group">
+                                            <div style="position: relative;">
+                                                <h6>发 货 地</h6>
+                                                <input id="city-picker3" class="form-control" readonly type="text" value="选择省/市/区县" data-toggle="city-picker">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="big_S">
+                            <div class="docs-methods">
+                                <form class="form-inline">
+                                    <div id="distpicker">
+                                        <div class="form-group">
+                                            <div style="position: relative;">
+                                                <h6>收 货 地</h6>
+                                                <input id="city-picker3" class="form-control" readonly type="text" value="选择省/市/区县" data-toggle="city-picker">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="big_S big_T">
+                            <h6>快件重量</h6>
+                            <input type="text" value="" name="text" placeholder="请输入重量 "><em>KG</em>
+                        </div>
+                        <div class="big_S big_T">
+                            <h6>快件体积</h6>
+                            <input type="text" value="" name="text" placeholder="请输入体积 "><em>m³</em>
+                        </div>
+                        <div class="in_but">
+                            <a href="javascript:;" class="order_2">搜索</a>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script src="../script/api.js"></script>
+<script src="../script/swiper.js"></script>
+<script src="../script/app.js"></script>
+<script src="../script/jquery.js"></script>
+<script src="../script/city-picker.data.js"></script>
+<script src="../script/city-picker.js"></script>
+
+    <script>
+
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            slidesPerView: 'auto',
+            paginationClickable: true,
+            history: 'love',
+            spaceBetween: 0,
+            roundLengths : true,
+            slidesOffsetBefore : 0,
+            // 如果需要分页器
+            pagination: {
+                el: '.swiper-pagination'
+            }
+        });
+
+        apiready = function() {
+          api.parseTapmode();
+
+          var header = $api.dom('header'); // 获取 header 标签元素
+          var footer = $api.dom('footer'); // 获取 footer 标签元素
+          var section = $api.dom('.container');
+          var sectionH = $api.fixStatusBar(section);
+          var headerH = $api.fixStatusBar(header);
+        //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+          var footerH = $api.fixTabBar(footer);
+
+            api.addEventListener({
+                name:'keyback'
+            }, function(ret, err){
+              if (ret) {
+                 api.closeWin({
+                     name: 'order'
+                 });
+              }
+            });
+
+            $('.reSP').bind('click',function() {
+              api.closeWin({
+                  name: 'order'
+              });
+
+            });
+            $('.order_2').bind('click',function () {
+              api.openWin({
+                  name: 'order_2',
+                  url: 'order_2.html',
+                  pageParam: {
+                      name: 'test'
+                  },
+
+                  bounces:false
+              });
+            });
+
+          }
+
+    </script>
+
+</body>
+</html>

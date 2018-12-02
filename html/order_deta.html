@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta content="black" name=" apple-mobile-web-app-capable" />
+    <title>下单详情</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet" />
+    <link href="../css/common.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="http://www.7j-wl.com/public/static/plugins/layui/css/layui.css">
+    <style media="screen">
+        .order_OK {
+            display: block;
+            width: 100%;
+            height: 1.6rem;
+            background: #00a0e8;
+            border-radius: 0.2rem;
+            font-size: 0.6rem;
+            line-height: 1.6rem;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body class="but0">
+    <!--头部-->
+    <header>
+        <div class="in_top">
+            <div class="top_left">
+                <a href="javascript:;" class="reSP">
+                    <span></span>
+                </a>
+            </div>
+            <div class="top_con">
+                <h2>订单详情</h2>
+            </div>
+        </div>
+    </header>
+    <!--头部End-->
+    <div class="container">
+        <div class="O_deta con">
+            <div class="deta_Top" id="root">
+                <div class="top">
+                    <h2><span>{{line.company_mini_name}}</span></h2>
+                    <h3><span class="span1">{{line.origin_province_name}}</span><span class="span2">{{line.end_province_name}}</span></h3>
+                    <h4><span class="span1">{{line.origin_city_name}}</span><span class="span2">{{line.end_city_name}}</span></h4>
+                </div>
+                <!-- <div class="lower">
+                    <h2>产品名称<span>定日达</span></h2>
+                    <h2>运输方式 <span>快运</span></h2>
+                </div> -->
+            </div>
+
+            <div class="deta_list">
+                <form class="" id="orderForm">
+                    <ul>
+                        <li>
+                            <h2>发货方信息</h2>
+                            <div class="form_box">
+                                <form action="" method="">
+                                    <div class="big_list">
+                                        <div class="list">
+                                            <span><i>*</i>发货人</span>
+                                            <input type="text" value="" name="f_user_name" placeholder="请输入发货人 ">
+                                        </div>
+                                        <div class="list">
+                                            <span><i>*</i>发货地址</span>
+                                            <span class="no_pad" id="origin_province_name"></span>
+                                            <span class="no_pad" id="origin_city_name"></span>
+                                            <span class="no_pad" id="origin_district_name"></span>
+                                        </div>
+                                        <div class="list">
+                                            <span><i>*</i>详细地址</span>
+                                            <input type="text" value="" name="f_address" placeholder="请输入详细地址 ">
+                                        </div>
+                                        <div class="list">
+                                            <span><i>*</i>手机号码</span>
+                                            <input type="text" value="" name="f_phone" placeholder="请输入手机号码 ">
+                                        </div>
+                                        <div class="list_aa">
+                                            <h6>存为常用联系人</h6>
+                                            <a href="javascript:;" name="f_is_c" class="od_linkman">选择联系人</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>收货方信息</h2>
+                            <div class="form_box" style="display: none;">
+                                <div class="big_list">
+                                    <div class="list">
+                                        <span><i>*</i>收货人</span>
+                                        <input type="text" value="" name="s_user_name" placeholder="请输入收货人 ">
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>发货地址</span>
+                                        <span class="no_pad" id="end_province_name"></span>
+                                        <span class="no_pad" id="end_city_name"></span>
+                                        <span class="no_pad" id="end_district_name"></span>
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>详细地址</span>
+                                        <input type="text" value="" name="s_address" placeholder="请输入详细地址 ">
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>手机号码</span>
+                                        <input type="text" value="" name="s_phone" placeholder="请输入手机号码 ">
+                                    </div>
+                                    <div class="list_aa">
+                                        <h6>存为常用联系人</h6>
+                                        <a href="javascript:;" name="s_is_c" class="od_linkman">选择联系人</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>货物信息</h2>
+                            <div class="form_box form_box2" style="display: none;">
+                                <div id="dynamicTable">
+                                    <div class="big_list big_list2">
+                                        <div class="list">
+                                            <span>货物名称 </span>
+                                            <input type="text" value="" name='goods_name[]' placeholder="请输入货物名称 ">
+                                        </div>
+                                        <div class="list">
+                                            <span>包装规格</span>
+                                            <select class="o_span" name="speci[]" lay-ignore="">
+		                                          <option value="1">纸箱</option>
+		                                          <option value="2">纸袋</option>
+		                                          <option value="3">塑料袋</option>
+		                                      </select>
+                                        </div>
+                                        <div class="list">
+                                            <span>件数</span>
+                                            <input type="text" value="" onchange="sum()" name='nums[]' placeholder="请输入货物件数">
+                                        </div>
+                                        <div class="list">
+                                            <span class="span2">单件毛量（KG）</span>
+                                            <input type="text" value="" onchange="sum()" name='kgs[]' class="input2" placeholder="请输入货物重量 ">
+                                        </div>
+                                        <div class="list">
+                                            <span class="span2">单件体积（m³）</span>
+                                            <input type="text" value="" onchange="sum()" name='ms[]' class="input2" placeholder="请输入货物体积 ">
+                                        </div>
+                                        <div class="list list_aa ">
+                                            <span>操作</span>
+                                            <a>删除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ord_but">
+                                    <span>添加货物</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>货物保价</h2>
+                            <div class="form_box" style="display: none;">
+                                <div class="big_list">
+                                    <div class="list">
+                                        <span class="span2">申明货物价值(元)</span>
+                                        <input type="text" value="" name="affirm_money" class="input2" placeholder="">
+                                    </div>
+                                    <div class="list_aa">
+                                        <h6 id="is_insurance">我已阅读并同意<em>《保价说明》</em></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>发票信息</h2>
+                            <div class="form_box" style="display: none;">
+                                <!-- is_invoice -->
+                                <div class="big_list">
+                                    <div class="list_aa list_bb is_invoice">
+                                        <h6 data-id="1">普通发票</h6>
+                                        <h6 data-id="2">增值税发票</h6>
+                                        <h6 class="active" data-id="3">不需要</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <h2>回单选择</h2>
+                            <!-- is_return -->
+                            <div class="form_box" style="display: none;">
+                                <div class="big_list">
+                                    <div class="list_aa list_bb is_return">
+                                        <h6 data-id="1">收条/厂单</h6>
+                                        <h6 data-id="2">签收原件返回</h6>
+                                        <h6 class="active" data-id="3">照片返回</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <h2 class="no_tp">期望发货时间</h2>
+                            <div class="layui-input-inline" onclick="chooseData()">
+                                <input id="date" name="deliver_time" placeholder="请选择期望发货时间">
+                            </div>
+                        </li>
+                        <li>
+                            <h2 class="no_tp">备注</h2>
+                            <textarea name="remarks" cols="" rows="" placeholder="快来描述您的问题吧!"></textarea>
+                        </li>
+                        <li>
+                            <h3>总价<span><span id="all_moneus"></span></span></h3>
+                        </li>
+
+                        <li class="button">
+                            <!--<input type="submit" value="提交" class="order_OK" id="sub_form">-->
+                            <a href="javascript:;" class="order_OK" id="order_form">提交</a>
+                        </li>
+                    </ul>
+                    <input type="hidden" name="i_all_money" id="i_all_money" />
+                    <input type="hidden" name="order_nums" />
+                    <input type="hidden" name="order_kgs" />
+                    <input type="hidden" name="order_ms" />
+                    <input type="hidden" id="deadweight_price">
+                    <input type="hidden" id="lightweight_price">
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="../script/api.js"></script>
+    <script src="../script/swiper.js"></script>
+    <script src="../script/app.js"></script>
+    <script src="../script/jquery.js"></script>
+    <script src="../script/public.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../script/vue.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        $(function() {
+            //下拉框
+            $('.deta_list ul li h2').on("click", function() {
+                $(this).siblings(".form_box").slideToggle(500)
+                $(this).toggleClass("active")
+            })
+
+            $('.deta_list ul li .form_box .big_list .list_aa h6').on("click", function() {
+                $(this).toggleClass("active").siblings().removeClass("active")
+            })
+
+            //快递包装选择
+            $(".deta_list ul li .form_box2 .big_list2 .list .o_span").on("click", function() {
+                $(this).siblings(".or_L").slideToggle(500);
+                $(this).toggleClass("active")
+            })
+
+            $(".deta_list ul li .form_box2 .big_list2 .list .or_L em").on("click", function() {
+                $(this).parents(".or_L").slideUp(".or_L");
+                $(this).addClass("active").siblings().removeClass("active");
+                var nes = $(this).html();
+                $(this).parents(".or_L").siblings(".deta_list ul li .form_box2 .big_list2 .list .o_span").html(nes)
+            })
+
+            $(".ord_but span").click(function() {
+                $("#dynamicTable").append(
+                    "<div class='big_list big_list2'> <div class='list'> <span>货物名称 </span> <input type='text' value='' name='goods_name[]' placeholder='请输入货物名称 '> </div> <div class='list'> <span>包装规格</span> <select class='o_span' name='speci[]' lay-ignore=''> <option value='1'>纸箱</option> <option value='2'>纸袋</option> <option value='3'>塑料袋</option> </select> </div> <div class='list'> <span>件数</span> <input type='text' value='' onchange='sum()' name='nums[]' placeholder='请输入货物件数'> </div> <div class='list'> <span class='span2'>单件毛量（KG）</span> <input type='text' value='' onchange='sum()' name='kgs[]' class='input2' placeholder='请输入货物重量 '> </div> <div class='list'> <span class='span2'>单件体积（m³）</span> <input type='text' value='' onchange='sum()' name='ms[]' class='input2' placeholder='请输入货物体积 '> </div> <div class='list list_aa '> <span>操作</span> <a>删除</a> </div> </div>"
+                );
+
+                //快递包装选择
+                $(".deta_list ul li .form_box2 .big_list2 .list .o_span").on("click", function() {
+                    $(this).siblings(".or_L").slideToggle(500);
+                    $(this).toggleClass("active")
+                })
+
+                $(".deta_list ul li .form_box2 .big_list2 .list .or_L em").on("click", function() {
+                    $(this).parents(".or_L").slideUp(".or_L");
+                    $(this).addClass("active").siblings().removeClass("active");
+                    var nes = $(this).html();
+                    $(this).parents(".or_L").siblings(".deta_list ul li .form_box2 .big_list2 .list .o_span").html(nes)
+                })
+
+                $("#dynamicTable .big_list2 .list_aa").click(function() {
+                    $(this).parent(".big_list2").remove();
+                });
+            });
+
+            $("#dynamicTable .big_list2 .list_aa").click(function() {
+                $(this).parent(".big_list2").remove();
+            });
+
+        })
+        apiready = function() {
+            api.parseTapmode();
+            var header = $api.dom('header'); // 获取 header 标签元素
+            var footer = $api.dom('footer'); // 获取 footer 标签元素
+            var section = $api.dom('.container');
+            var sectionH = $api.fixStatusBar(section);
+            var headerH = $api.fixStatusBar(header);
+            //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+            var footerH = $api.fixTabBar(footer);
+            var data = api.pageParam;
+            var lineId = data.lineId;
+            console.log(lineId);
+            var vm = new Vue({
+                    el: '#root',
+                    data: {
+                        line: {}, //线路信息
+                    },
+                    methods: {
+                        getOrderInfo: function() {
+                            var data = api.pageParam;
+                            var lineId = data.lineId; //951
+                            var appToken = $api.getStorage('appToken');
+                            var _this = this;
+                            api.ajax({
+                                url: HOST + '/api/order/createOrder',
+                                method: 'get',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                data: {
+                                    values: {
+                                        lineId: lineId,
+                                        appToken: appToken
+                                    }
+                                }
+                            }, function(ret, err) {
+                                if (ret) {
+                                    if (ret.code == 0) {
+                                        alert(ret.msg);
+                                        api.closeWin();
+                                        api.openWin({
+                                            name: 'sign',
+                                            url: './sign.html'
+                                        });
+                                        api.sendEvent({
+                                            name: 'logout'
+                                        });
+                                        $api.rmStorage('appToken');
+                                        $api.rmStorage('userInfo');
+                                    } else {
+                                        _this.line = ret.data.line;
+                                        $('#end_province_name').text(ret.data.line.end_province_name);
+                                        $('#end_city_name').text(ret.data.line.end_city_name);
+                                        $('#end_district_name').text(ret.data.line.end_district_name);
+                                        $('#origin_province_name').text(ret.data.line.origin_province_name);
+                                        $('#origin_city_name').text(ret.data.line.origin_city_name);
+                                        $('#origin_district_name').text(ret.data.line.origin_district_name);
+                                        $('#lightweight_price').val(ret.data.line.lightweight_price);
+                                        $('#deadweight_price').val(ret.data.line.deadweight_price);
+                                    }
+                                } else {
+                                    alert(JSON.stringify(err));
+                                }
+                            });
+                        }
+                    },
+                    created: function() {
+                        this.getOrderInfo();
+                    }
+                })
+                //监听返回按钮 关闭当前页面
+            api.addEventListener({
+                name: 'keyback'
+            }, function(ret, err) {
+                if (ret) {
+                    api.closeWin({
+                        name: 'order_deta'
+                    });
+                }
+            });
+            //关闭当前页面
+            $('.reSP').bind('click', function() {
+                api.closeWin({
+                    name: 'order_deta'
+                });
+
+            });
+            //选择联系人
+            $('.od_linkman').bind('click', function() {
+                api.openWin({
+                    name: 'od_linkman',
+                    url: 'od_linkman.html',
+                    pageParam: {
+                        name: 'test'
+                    },
+
+                    bounces: false
+                });
+            });
+
+            // $('.order_OK').bind('click', function() {
+            //     api.openWin({
+            //         name: 'order_OK',
+            //         url: 'order_OK.html',
+            //         pageParam: {
+            //             name: 'test'
+            //         },
+            //
+            //         bounces: false
+            //     });
+            // });
+
+
+        }
+
+        function chooseData() {
+            api.openPicker({
+                type: 'date',
+                title: '选择日期'
+            }, function(ret, err) {
+                if (ret) {
+                    var date = '' + ret.year + '-' + ret.month + '-' + ret.day + '';
+                    $('#date').val(date);
+                    // alert(JSON.stringify(ret));
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+        }
+    </script>
+    <script type="text/javascript">
+        $("#order_form").click(function() {
+            var goods_name = $("input[name='goods_name[]']").map(function() {
+                return $(this).val()
+            }).get();
+            var speci = $("select[name='speci[]']").map(function() {
+                return $(this).val()
+            }).get();
+            var nums = $("input[name='nums[]']").map(function() {
+                return $(this).val()
+            }).get();
+            var kgs = $("input[name='kgs[]']").map(function() {
+                return $(this).val()
+            }).get();
+            var ms = $("input[name='ms[]']").map(function() {
+                return $(this).val()
+            }).get();
+            var form = document.getElementById('order_form');
+            console.log($("#orderForm").serialize());
+            console.log($('.is_invoice').children(".active").data('id')); // 发票
+            console.log($('.is_return').children(".active").data('id')); // 回单
+            // $('.is_return .active').data('id')
+            if ($("input[name='f_user_name']").val() == "") {
+                api.toast({
+                    msg: '请输入发货人名称',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                $("input[name='f_user_name']").focus();;
+                return false;
+            }
+            if ($("input[name='deliver_time']").val() == "") {
+                api.toast({
+                    msg: '请选择期望发货时间',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                $("input[name='deliver_time']").focus();
+                return false;
+            }
+            if ($("input[name='f_address']").val() == "") {
+                api.toast({
+                    msg: '请输入发货人详细地址',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                $("input[name='f_address']").focus();
+                return false;
+            }
+            var myreg_f = /^[1][0-9]{10}$/;
+            if ($("input[name='f_phone']").val() == "") {
+                api.toast({
+                    msg: '请输入发货人手机号码',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                $("input[name='f_phone']").focus();
+                return false;
+            } else if (!myreg_f.test($("input[name='f_phone']").val())) {
+                api.toast({
+                    msg: '请输入正确格式发货人的手机号',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                $("input[name='f_phone']").focus();
+                return false;
+            }
+
+            //		if($("input[name='f_email']").val()==""){
+            //			layer.alert('请输入发货人邮箱', {time:1000,icon: 2});
+            //			$("input[name='f_email']").focus();
+            //			return false;
+            //		}
+            //收货
+            if ($("input[name='s_user_name']").val() == "") {
+                api.toast({
+                    msg: '请输入收货人名称',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                $("input[name='s_user_name']").focus();
+                return false;
+            }
+            if ($("input[name='s_address']").val() == "") {
+                api.toast({
+                    msg: '请输入收货人详细地址',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                $("input[name='s_address']").focus();
+                return false;
+            }
+            if ($("input[name='s_phone']").val() == "") {
+                api.toast({
+                    msg: '请输入收货人手机号码',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                $("input[name='s_phone']").focus();
+                return false;
+            } else {
+                var myreg_s = /^[1][0-9]{10}$/;
+                if (!myreg_s.test($("input[name='s_phone']").val())) {
+                    api.toast({
+                        msg: '请输入正确格式收货人的手机号',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                    $("input[name='s_phone']").focus();
+                    return false;
+                }
+            }
+            // if (!$("input[name='is_insurance']").prop('checked')) {
+            //     api.toast({
+            //       msg: '请同意保价说明',
+            //       duration: 2000,
+            //       location: 'bottom'
+            //     });
+            //     $("input[name='is_insurance']").focus();
+            //     return false;
+            // }
+            // alert($('#is_insurance').hasClass('active'));
+            // alert($("input[name='i_all_money']").val());
+            // return;
+            // console.log($('#is_insurance').hasClass('active'));
+            if ($('#is_insurance').hasClass('active') && $("input[name='affirm_money']").val() == '') {
+                api.toast({
+                    msg: '请输入申明货物价值',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                $("input[name='affirm_money']").focus();
+                return false;
+            }
+            var acb = true;
+            $(".goods_name").each(function() {
+                if (!$(this).val()) {
+                    acb = false;
+                }
+            });
+
+            $("input[name='nums[]").each(function() {
+                if (!$(this).val() || $(this).val() <= 0) {
+                    acb = false;
+                }
+            });
+
+            $("input[name='kgs[]']").each(function() {
+                if (!$(this).val() || $(this).val() <= 0) {
+                    acb = false;
+                }
+            });
+
+            $("input[name='ms[]']").each(function() {
+                if (!$(this).val() || $(this).val() <= 0) {
+                    acb = false;
+                }
+            });
+            if ($("input[name='i_all_money']").val() <= 0 || !acb) {
+                api.toast({
+                    msg: '请完善货物运输信息',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                // $("input[name='i_all_money']").focus();
+                return false;
+            }
+            //        layer.alert('订单生成中....', {time: 3000, icon: 1});
+            var form = document.getElementById('order_form');
+            console.log($("#orderForm").serialize());
+            var data = api.pageParam;
+            var lineId = data.lineId; //951
+            var appToken = $api.getStorage('appToken');
+            var is_insurance = 'on';
+            if ($('#is_insurance').hasClass('active')) {
+                is_insurance = 'on'
+            } else {
+                is_insurance = 'off'
+            }
+            var _this = this;
+            var url = HOST + '/api/order/createOrder';
+            api.ajax({
+                url: url,
+                method: 'post',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                data: {
+                    values: {
+                        line_id: lineId,
+                        appToken: appToken,
+                        remarks: $("textarea[name='remarks']").val(),
+                        f_user_name: $("input[name='f_user_name']").val(),
+                        f_address: $("input[name='f_address']").val(),
+                        f_phone: $("input[name='f_phone']").val(),
+                        s_user_name: $("input[name='s_user_name']").val(),
+                        s_address: $("input[name='s_address']").val(),
+                        s_phone: $("input[name='s_phone']").val(),
+                        is_insurance: is_insurance,
+                        affirm_money: $("input[name='affirm_money']").val(),
+                        is_invoice: $('.is_invoice').children(".active").data('id'),
+                        is_pay: 1,
+                        is_return: $('.is_return').children(".active").data('id'),
+                        all_money: $("input[name='i_all_money']").val(),
+                        order_nums: $("input[name='order_nums']").val(),
+                        order_kgs: $("input[name='order_kgs']").val(),
+                        order_ms: $("input[name='order_ms']").val(),
+                        deliver_time: $("input[name='deliver_time']").val(),
+                        goods_name: goods_name,
+                        speci: speci,
+                        nums: nums,
+                        kgs: kgs,
+                        ms: ms
+                    }
+                }
+            }, function(ret, err) {
+                alert(ret.msg);
+                if (ret.code == 1) {
+                    var orderId = ret.data.orderId;
+                    api.openWin({
+                        name: 'cen_deta',
+                        url: 'cen_deta.html',
+                        pageParam: {
+                            orderId: orderId
+                        }
+                    });
+                }
+            });
+
+            // form.submit();
+        });
+
+        function sum() {
+            var lightweight_price = $('#lightweight_price').val();
+            var deadweight_price = $('#deadweight_price').val();
+            var sumPrice = 0;
+            var sumMs = 0;
+            var sumKgs = 0;
+            var sumNums = 0;
+
+            var goods = [];
+            $("input[name='nums[]']").each(function(i) {
+                goods[i] = [];
+                goods[i]['nums'] = $(this).val();
+            });
+            $("input[name='kgs[]']").each(function(i) {
+                goods[i]['kgs'] = $(this).val();
+            });
+            $("input[name='ms[]']").each(function(i) {
+                goods[i]['ms'] = $(this).val();
+            });
+            for (var i = 0; i < goods.length; i++) {
+                if (goods[i]['ms'] > 0 && goods[i]['kgs'] > 0 && goods[i]['nums'] > 0) {
+                    if (isLightweight(goods[i]['ms'], goods[i]['kgs'])) {
+                        sumPrice += (goods[i]['ms'] * lightweight_price) * goods[i]['nums'];
+                    } else {
+                        sumPrice += (goods[i]['kgs'] * deadweight_price) * goods[i]['nums'];
+                    }
+                    sumMs += (goods[i]['ms'] * goods[i]['nums']);
+                    sumKgs += (goods[i]['kgs'] * goods[i]['nums']);
+                    sumNums += (goods[i]['nums'] * 1);
+                }
+            }
+
+            sumPrice = sumPrice.toFixed(2);
+            sumKgs = sumKgs.toFixed(2);
+            sumMs = sumMs.toFixed(2);
+
+            // $("#sumMs").html(sumMs + '&nbsp;m³');
+            // $("#sumKgs").html(sumKgs + '&nbsp;kg');
+            // $("#sumNums").html(sumNums + '&nbsp;件');
+            $("#all_moneus").html("¥ " + sumPrice);
+            //
+            $("#i_all_money").val(sumPrice);
+            $("input[name='order_nums']").val(sumNums);
+            $("input[name='order_kgs']").val(sumKgs);
+            $("input[name='order_ms']").val(sumMs);
+        }
+
+        function isLightweight(ms, kg) {
+            ms = (ms * 1000) / 3;
+            if (ms > kg) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+</body>
+
+</html>

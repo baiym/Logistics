@@ -1,0 +1,268 @@
+﻿/*公共样式表*/
+* {
+  word-wrap: break-word; }
+
+html, body, h1, h2, h3, h4, h5, h6, hr, p, iframe, dl, dt, dd, ul, ol, li, pre, form, button, input, textarea, th, td, fieldset {
+  margin: 0;
+  padding: 0; }
+
+ul, ol, dl {
+  list-style-type: none; }
+
+html, body {
+  *position: static; }
+
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%; }
+
+address, caption, cite, code, dfn, em, th, var {
+  font-style: normal;
+  font-weight: 400; }
+
+input, button, textarea, select, optgroup, option {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit; }
+
+input, button {
+  overflow: visible;
+  vertical-align: middle;
+  outline: none; }
+
+body, th, td, button, input, select, textarea {
+  font-family: "Microsoft Yahei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, tahoma, arial, Verdana, sans-serif, "WenQuanYi Micro Hei", "\5B8B\4F53";
+  font-size: 12px;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+body {
+  line-height: 1.6; }
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%; }
+
+a, area {
+  outline: none;
+  blr: expression(this.onFocus=this.blur())}
+a{text-decoration:none;
+  cursor: pointer;
+  color: #333; }
+
+a:hover {
+  outline: none; }
+
+a.ie6:hover {
+  zoom: 1; }
+
+a:focus {
+  outline: none; }
+
+a:hover, a:active {
+  outline: none; }
+
+:focus {
+  outline: none; }
+
+sub, sup {
+  vertical-align: baseline; }
+
+button, input[type="button"], input[type="submit"] {
+  line-height: normal !important; }
+
+img {
+  border: 0;
+  vertical-align: middle; }
+
+a img, img {
+  -ms-interpolation-mode: bicubic; }
+
+.img-responsive {
+  max-width: 100%;
+  height: auto; }
+
+header, footer, section, aside, details, menu, article, section, nav, address, hgroup, figure, figcaption, legend {
+  display: block;
+  margin: 0;
+  padding: 0; }
+
+time {
+  display: inline; }
+
+audio, canvas, video {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1; }
+
+audio:not([controls]) {
+  display: none; }
+
+legend {
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 21px;
+  line-height: 40px;
+  border: 0;
+  border-bottom: 1px solid #e5e5e5; }
+
+legend small {
+  font-size: 15px;
+  color: #999; }
+
+svg:not(:root) {
+  overflow: hidden; }
+
+fieldset {
+  border-width: 0;
+  padding: 0.35em 0.625em 0.75em;
+  margin: 0 2px;
+  border: 1px solid #c0c0c0; }
+
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
+  height: auto; }
+
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  /* 2 */
+  box-sizing: content-box; }
+
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none; }
+
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden; }
+
+.clearfix {
+  zoom: 1; }
+
+.f-l {
+  float: left; }
+
+.f-c {
+  float: left; }
+
+.f-r {
+  float: right; }
+
+.text-l {
+  text-align: left; }
+
+.text-r {
+  text-align: right; }
+
+.text-c {
+  text-align: center; }
+
+.border0 {
+    border: 0 !important;
+}
+
+/*加载更多*/
+.load-10 .bar {
+    animation: loadingJ 2s cubic-bezier(.17,.37,.43,.67) infinite;
+}
+.load-10{
+    width: 100px;
+    margin: 0 auto;
+    text-align: center;
+
+}
+.load-10 p{
+    font-size: 0.4rem;
+    color: #dedede;
+    padding: 0.2rem 0;
+}
+.bar {
+    float: left;
+    width: 15px;
+    height: 2px;
+    background-color: #dedede;
+}
+@keyframes loadingJ {
+    0%,100% {transform: translate(0,0);}
+
+    50% {
+        transform: translate(80px,0);
+        background-color: #82e5db;
+        width: 25px;
+    }
+}
+
+/*ios系统基本样式清除*/
+/*透明度设置为0，去掉点击链接和文本框对象时默认的灰色半透明覆盖层(iOS)或者虚框(Android)*/
+a,input,textarea,select,button{
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    -moz-tap-highlight-color:rgba(0,0,0,0);
+    -ms-tap-highlight-color:rgba(0,0,0,0);
+    -o-tap-highlight-color:rgba(0,0,0,0);
+}
+
+/*消除输入框和按钮的原生外观，在iOS上加上这个属性才能给按钮和输入框自定义样式 */
+input,textarea,select,button{
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    -ms-appearance:none;
+    -o-appearance:none;
+}
+
+/*rem定义*/
+html {
+    font-size: 25px !important;
+    /*max-width: 786px;*/
+    margin: 0 auto;
+}
+@media only screen and (min-width: 401px) {
+    html {
+        font-size: 25px !important;
+    }
+}
+
+@media only screen and (min-width: 428px) {
+    html {
+        font-size: 26.75px !important;
+    }
+}
+
+@media only screen and (min-width: 481px) {
+    html {
+        font-size: 30px !important;
+    }
+}
+
+@media only screen and (min-width: 569px) {
+    html {
+        font-size: 35px !important;
+    }
+}
+
+@media only screen and (min-width: 641px) {
+    html {
+        font-size: 40px !important;
+    }
+}
+
+a:link, a:visited, a:hover, a:active {
+    text-decoration: none;
+    outline: 0;
+}
+
+a:focus {
+    outline: 0;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    hide-focus: expression(this.hideFocus=true);
+    outline: none;
+}

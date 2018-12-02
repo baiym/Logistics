@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta content="black" name=" apple-mobile-web-app-capable" />
+    <title>个人中心-编辑-安全信息</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet"/>
+    <link href="../css/common.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body class="bgfff">
+<!--头部-->
+    <header>
+        <div class="in_top">
+            <div class="top_left">
+                <a href="javascript:;" class="reSP">
+                    <span></span>
+                </a>
+            </div>
+            <div class="top_con">
+                <h2>安全信息</h2>
+            </div>
+
+        </div>
+    </header>
+<!--头部End-->
+<!--内容-->
+    <div class="container">
+
+        <div class="sec_con">
+            <form method="post" action="">
+                <div class="formBox">
+                    <h2>手机号码</h2>
+                    <input type="text" value="" name="UserName" placeholder="请输入手机号">
+                </div>
+
+                <div class="formBox form_Yzm">
+                    <h2>验证码</h2>
+                    <input type="password" value="" name="Password" placeholder="请输入验证码">
+                    <input type="button" id="btn" value="发送验证码" onclick="settime(this)" />
+                </div>
+
+                <div class="formBox form_Yzm">
+                    <h2>邮箱</h2>
+                    <input type="password" value="" name="Password" placeholder="请输入邮箱">
+                </div>
+
+                <div class="but">
+                    <input type="button" value="保存" class="button button_AN">
+                </div>
+            </form>
+        </div>
+
+    </div>
+<!--内容End-->
+<script src="../script/api.js"></script>
+<script src="../script/swiper.js"></script>
+<script src="../script/app.js"></script>
+<script src="../script/jquery.js"></script>
+<script src="../script/city-picker.data.js"></script>
+<script src="../script/city-picker.js"></script>
+
+<!--倒计时60-->
+<script type="text/javascript">
+    var countdown=60;
+    function settime(obj) {
+        if (countdown == 0) {
+            obj.removeAttribute("disabled");
+            obj.value="发送验证码";
+            countdown = 60;
+            return;
+        } else {
+            obj.setAttribute("disabled", true);
+            obj.value="重新发送(" + countdown + ")";
+            countdown--;
+        }
+        setTimeout(function() {
+                    settime(obj) }
+                ,1000)
+    }
+
+    apiready = function() {
+      api.parseTapmode();
+
+      var header = $api.dom('header'); // 获取 header 标签元素
+      var footer = $api.dom('footer'); // 获取 footer 标签元素
+      var section = $api.dom('.container');
+      var sectionH = $api.fixStatusBar(section);
+      var headerH = $api.fixStatusBar(header);
+    //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+      var footerH = $api.fixTabBar(footer);
+
+        api.addEventListener({
+            name:'keyback'
+        }, function(ret, err){
+          if (ret) {
+             api.closeWin({
+                 name: 'cen_edit_secnews_deta3'
+             });
+          }
+        });
+
+        $('.reSP').bind('click',function() {
+          api.closeWin({
+              name: 'cen_edit_secnews_deta3'
+          });
+        });
+
+        $('.button_AN').bind('click',function () {
+          api.openWin({
+              name: 'cen_edit_secnews',
+              url: 'cen_edit_secnews.html',
+              pageParam: {
+                  name: 'test'
+              },
+
+              bounces:false
+          });
+        });
+      }
+
+</script>
+
+
+</body>
+</html>

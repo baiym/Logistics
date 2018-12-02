@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta content="black" name=" apple-mobile-web-app-capable"/>
+    <title>物流商个人中心-运输中-物流</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet"/>
+    <link href="../css/common.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body class="but0">
+
+<!--内容-->
+<!--头部-->
+<header>
+    <div class="in_top">
+        <div class="top_left">
+            <a href="javascript:;" class="reSP">
+                <span></span>
+            </a>
+        </div>
+        <div class="top_con">
+            <h2>订单查询</h2>
+        </div>
+
+    </div>
+</header>
+<!--头部End-->
+<div class="container">
+    <div class="qu_2">
+        <div class="top">
+            <h2 style="background: url('../image/order_icon2.png')no-repeat center;background-size: contain"></h2>
+            <span>运输中</span>
+        </div>
+
+        <div class="track-rcol">
+            <div class="but">
+                <input value="物流更新" class="button per_wuliu2" type="button">
+            </div>
+            <div class="track-list">
+                <ul>
+                    <li class="first">
+                        <div class="left">
+                            <span>昨天</span>
+                            <span class="span2">07:34</span>
+                        </div>
+                        <i class="node-icon"></i>
+                        <span class="time">已签收</span>
+                        <span class="txt">已签收，感谢使用顺丰，期待再次为您服务</span>
+                    </li>
+                    <li>
+                        <div class="left">
+                            <span>昨天</span>
+                            <span class="span2">07:34</span>
+                        </div>
+                        <i class="node-icon node-iconDD"></i>
+                        <span class="time">派送中</span>
+                        <span class="txt">[北京市]北京京师通州区派送员：张伟 132123123131正在为您派件</span>
+                    </li>
+                    <li>
+                        <div class="left">
+                            <span>昨天</span>
+                            <span class="span2">07:34</span>
+                        </div>
+                        <i class="node-icon"></i>
+                        <span class="time">运输中</span>
+                        <span class="txt">广东省，广州市开发公司已打包</span>
+                    </li>
+                    <li>
+                        <div class="left">
+                            <span>昨天</span>
+                            <span class="span2">07:34</span>
+                        </div>
+                        <i class="node-icon"></i>
+                        <span class="time">运输中</span>
+                        <span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
+                    </li>
+                    <li>
+                        <div class="left">
+                            <span>昨天</span>
+                            <span class="span2">07:34</span>
+                        </div>
+                        <i class="node-icon"></i>
+                        <span class="time">已揽件</span>
+                        <span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
+                    </li>
+                    <li>
+                        <div class="left">
+                            <span>昨天</span>
+                            <span class="span2">07:34</span>
+                        </div>
+                        <i class="node-icon node-iconDD"></i>
+                        <span class="time">已出库</span>
+                        <span class="txt">感谢您在京东购物，欢迎您再次光临！</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--内容End-->
+<script src="../script/api.js"></script>
+<script src="../script/swiper.js"></script>
+<script src="../script/app.js"></script>
+<script src="../script/jquery.js"></script>
+<script src="../script/city-picker.data.js"></script>
+<script src="../script/city-picker.js"></script>
+<script>
+    $(function(){
+        $('.wwc_C .list_C li').on('click',function(){
+            $(this).toggleClass('active')
+        })
+    })
+
+    apiready = function() {
+      api.parseTapmode();
+
+      var header = $api.dom('header'); // 获取 header 标签元素
+      var footer = $api.dom('footer'); // 获取 footer 标签元素
+      var section = $api.dom('.container');
+      var sectionH = $api.fixStatusBar(section);
+      var headerH = $api.fixStatusBar(header);
+    //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+      var footerH = $api.fixTabBar(footer);
+
+        api.addEventListener({
+            name:'keyback'
+        }, function(ret, err){
+          if (ret) {
+             api.closeWin({
+                 name: 'per_wuliu1'
+             });
+          }
+        });
+
+        $('.reSP').bind('click',function() {
+          api.closeWin({
+              name: 'per_wuliu1'
+          });
+        });
+
+
+        $('.per_wuliu2').bind('click',function () {
+          api.openWin({
+              name: 'per_wuliu2',
+              url: 'per_wuliu2.html',
+              pageParam: {
+                  name: 'test'
+              },
+
+              bounces:false
+          });
+        });
+
+    }
+</script>
+
+
+</body>
+</html>

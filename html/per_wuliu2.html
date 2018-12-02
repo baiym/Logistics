@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta content="black" name=" apple-mobile-web-app-capable"/>
+    <title>物流商个人中心-运输中-物流更新</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet"/>
+    <link href="../css/common.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="../css/LArea.css">
+
+</head>
+<body class="but0 bgfff">
+
+<!--内容-->
+<!--头部-->
+<header>
+    <div class="in_top">
+        <div class="top_left">
+            <a href="javascript:;" class="reSP">
+                <span></span>
+            </a>
+        </div>
+        <div class="top_con">
+            <h2>物流更新</h2>
+        </div>
+
+    </div>
+</header>
+<!--头部End-->
+<div class="container">
+    <div class="cen_main cen_ed wuliu_C">
+        <ul class="list_C">
+            <li>
+                <span>时间</span>
+                <a href="#" class="" id="sel_time">请选择发货时间</a>
+            </li>
+            <li class="but_net">
+                <span>到达地</span>
+                <input id="demo1" type="text" readonly placeholder="请选择城市"/>
+            </li>
+            <li>
+                <a href="javascript:;" class="only_editTX">
+                    <span>联系方式</span>
+                    <em> </em>
+                </a>
+            </li>
+            <li class="no_icon">
+                <h2>备注</h2>
+                <textarea name="" cols="" rows="" placeholder="快来描述您的问题吧!"></textarea>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<!--内容End-->
+<script src="../script/api.js"></script>
+<script src="../script/swiper.js"></script>
+<script src="../script/app.js"></script>
+<script src="../script/jquery.js"></script>
+<script src="../script/city-picker.data.js"></script>
+<script src="../script/city-picker.js"></script>
+<script src="../script/picker.js"></script>
+<script src="../script/time2.js"></script>
+<script>
+
+    apiready = function() {
+      api.parseTapmode();
+
+      var header = $api.dom('header'); // 获取 header 标签元素
+      var footer = $api.dom('footer'); // 获取 footer 标签元素
+      var section = $api.dom('.container');
+      var sectionH = $api.fixStatusBar(section);
+      var headerH = $api.fixStatusBar(header);
+    //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+      var footerH = $api.fixTabBar(footer);
+
+        api.addEventListener({
+            name:'keyback'
+        }, function(ret, err){
+          if (ret) {
+             api.closeWin({
+                 name: 'per_wuliu2'
+             });
+          }
+        });
+
+        $('.reSP').bind('click',function() {
+          api.closeWin({
+              name: 'per_wuliu2'
+          });
+        });
+
+
+        $('.only_editTX').bind('click',function () {
+          api.openWin({
+              name: 'only_edit',
+              url: 'only_edit.html',
+              pageParam: {
+                  name: 'test'
+              },
+
+              bounces:false
+          });
+        });
+
+    }
+</script>
+<script>
+    var nameEl = document.getElementById('sel_time');
+
+    var first = [];
+    /* 省，直辖市 */
+    var second = [];
+    /* 市 */
+    var third = [];
+    /* 镇 */
+
+    var selectedIndex = [0, 0, 0];
+    /* 默认选中的地区 */
+
+    var checked = [0, 0, 0];
+    /* 已选选项 */
+
+    function creatList(obj, list) {
+        obj.forEach(function (item, index, arr) {
+            var temp = new Object();
+            temp.text = item.name;
+            temp.value = index;
+            list.push(temp);
+        })
+    }
+
+    creatList(city, first);
+
+    if (city[selectedIndex[0]].hasOwnProperty('sub')) {
+        creatList(city[selectedIndex[0]].sub, second);
+    } else {
+        second = [{text: '', value: 0}];
+    }
+
+    if (city[selectedIndex[0]].sub[selectedIndex[1]].hasOwnProperty('sub')) {
+        creatList(city[selectedIndex[0]].sub[selectedIndex[1]].sub, third);
+    } else {
+        third = [{text: '', value: 0}];
+    }
+
+    var picker = new Picker({
+        data: [first, second, third],
+        selectedIndex: selectedIndex,
+        title: ''
+    });
+
+    picker.on('picker.select', function (selectedVal, selectedIndex) {
+        var text1 = first[selectedIndex[0]].text;
+        var text2 = second[selectedIndex[1]].text;
+        var text3 = third[selectedIndex[2]] ? third[selectedIndex[2]].text : '';
+
+        nameEl.innerText = text1 + ' ' + text2 + ' ' + text3;
+    });
+
+    picker.on('picker.change', function (index, selectedIndex) {
+        if (index === 0) {
+            firstChange();
+        } else if (index === 1) {
+            secondChange();
+        }
+
+        function firstChange() {
+            second = [];
+            third = [];
+            checked[0] = selectedIndex;
+            var firstCity = city[selectedIndex];
+            if (firstCity.hasOwnProperty('sub')) {
+                creatList(firstCity.sub, second);
+
+                var secondCity = city[selectedIndex].sub[0]
+                if (secondCity.hasOwnProperty('sub')) {
+                    creatList(secondCity.sub, third);
+                } else {
+                    third = [{text: '', value: 0}];
+                    checked[2] = 0;
+                }
+            } else {
+                second = [{text: '', value: 0}];
+                third = [{text: '', value: 0}];
+                checked[1] = 0;
+                checked[2] = 0;
+            }
+
+            picker.refillColumn(1, second);
+            picker.refillColumn(2, third);
+            picker.scrollColumn(1, 0)
+            picker.scrollColumn(2, 0)
+        }
+
+        function secondChange() {
+            third = [];
+            checked[1] = selectedIndex;
+            var first_index = checked[0];
+            if (city[first_index].sub[selectedIndex].hasOwnProperty('sub')) {
+                var secondCity = city[first_index].sub[selectedIndex];
+                creatList(secondCity.sub, third);
+                picker.refillColumn(2, third);
+                picker.scrollColumn(2, 0)
+            } else {
+                third = [{text: '', value: 0}];
+                checked[2] = 0;
+                picker.refillColumn(2, third);
+                picker.scrollColumn(2, 0)
+            }
+        }
+
+    });
+
+    picker.on('picker.valuechange', function (selectedVal, selectedIndex) {
+        console.log(selectedVal);
+        console.log(selectedIndex);
+    });
+
+    nameEl.addEventListener('click', function () {
+        picker.show();
+    });
+
+</script>
+
+</body>
+</html>

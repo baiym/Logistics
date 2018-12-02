@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta content="black" name=" apple-mobile-web-app-capable"/>
+    <title>我的钱包-发票管理</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet"/>
+    <link href="../css/common.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<style>
+    .invo_con .invo_list .list_W ul li h2 span {
+        display: block;
+        font-size: 0.48rem;
+        line-height: 0.48rem;
+        color: #999;
+        padding: 0.3rem 0 0;
+    }
+</style>
+<body class="but0 bgfff">
+<!--头部-->
+<header>
+    <div class="in_top">
+        <div class="top_left">
+            <a href="javascript:;" class="reSP">
+                <span></span>
+            </a>
+        </div>
+        <div class="top_con">
+            <h2>发票管理</h2>
+        </div>
+        <div class="top_right">
+            <a href="javascript:;"></a>
+        </div>
+    </div>
+</header>
+<!--头部End-->
+
+<div class="container">
+    <div class="well_con">
+        <div class="money">
+            <div class="left">
+                <span>可开发票金额</span>
+
+                <h2><em>¥</em>13200</h2>
+            </div>
+            <div class="left right">
+                <span>已开发票</span>
+
+                <h2><em>¥</em>5000</h2>
+            </div>
+        </div>
+        <div class="well_list invo_list">
+            <div class="tit">
+                <ul>
+                    <li class="active"><span>代开票</span></li>
+                    <li><span>已开票</span></li>
+                </ul>
+            </div>
+
+            <div class="list_W invo_L">
+                <ul>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li class="button">
+                        <a href="javascript:;" class="a1 invoiceA1">普通发票</a>
+                        <a href="javascript:;" class="a2 invoiceA2">增值税发票</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="list_W" style="display: none">
+                <ul>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>4000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                    <li>
+                        <h2>订单DSHAO564564651<span>2018-02-02</span></h2>
+
+                        <h3><em>¥</em>5000</h3>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="../script/api.js"></script>
+<script src="../script/app.js"></script>
+<script src="../script/jquery.js"></script>
+<script src="../script/city-picker.data.js"></script>
+<script src="../script/city-picker.js"></script>
+<script>
+    $(function () {
+        $('.well_con .well_list .tit ul li').on("click", function () {
+            $(this).toggleClass("active span").siblings().removeClass("active span");
+            $(".list_W").eq($(this).index()).show().siblings(".list_W").hide();
+        })
+
+        $(".well_con .well_list .tit ul li").on("click", function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        })
+
+        $('.well_con .well_list .invo_L ul li').on("click",function(){
+            $(this).toggleClass("active")
+        })
+    })
+        apiready = function() {
+          api.parseTapmode();
+
+          var header = $api.dom('header'); // 获取 header 标签元素
+          var footer = $api.dom('footer'); // 获取 footer 标签元素
+          var headerH = $api.fixStatusBar(header);
+          var section = $api.dom('.container');
+          var sectionH = $api.fixStatusBar(section);
+        //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+          var footerH = $api.fixTabBar(footer);
+
+            api.addEventListener({
+                name:'keyback'
+            }, function(ret, err){
+              if (ret) {
+                 api.closeWin({
+                     name: 'center_invoice'
+                 });
+              }
+            });
+
+            $('.reSP').bind('click',function() {
+              api.closeWin({
+                  name: 'center_invoice'
+              });
+
+            });
+            $('.invoiceA1').bind('click',function () {
+              api.openWin({
+                  name: 'center_invoiceA1',
+                  url: 'center_invoiceA1.html',
+                  pageParam: {
+                      name: 'test'
+                  },
+
+                  bounces:false
+              });
+            });
+
+            $('.invoiceA2').bind('click',function () {
+              api.openWin({
+                  name: 'center_invoiceA2',
+                  url: 'center_invoiceA2.html',
+                  pageParam: {
+                      name: 'test'
+                  },
+
+                  bounces:false
+              });
+            });
+
+          }
+
+</script>
+
+</body>
+</html>

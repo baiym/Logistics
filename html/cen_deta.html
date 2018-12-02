@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta content="black" name=" apple-mobile-web-app-capable" />
+    <title>我的订单</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet" />
+    <link href="../css/common.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="but0">
+    <!--头部-->
+    <header>
+        <div class="in_top">
+            <div class="top_left">
+                <a href="javascript:;" class="reSP">
+                    <span></span>
+                </a>
+            </div>
+            <div class="top_con">
+                <h2>订单详情</h2>
+            </div>
+
+        </div>
+    </header>
+    <!--头部End-->
+    <div class="container" id="root">
+        <div class="O_deta con add_adfix2">
+            <div class="deta_Top">
+                <div class="top">
+                    <h2><span>{{orderInfo.mini_name}}</span></h2>
+                    <h3><span class="span1">上海</span><span class="span2">深圳</span></h3>
+                    <h4><span class="span1">上海市</span><span class="span2">盐田市</span></h4>
+                </div>
+                <div class="lower">
+                    <h2>产品名称<span>定日达</span></h2>
+                    <h2>运输方式<span>快运</span></h2>
+                    <h2>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态
+                      <span v-if="orderInfo.status == 1">未接单</span>
+                      <span v-if="orderInfo.status == 2">已接单</span>
+                      <span v-if="orderInfo.status == 3">拒单或者终止订单</span>
+                        <span v-if="orderInfo.status == 4">已支付</span>
+                      <span v-if="orderInfo.status == 7">已发货</span>
+                      <span v-if="orderInfo.status == 8">已到达或者等待签收</span>
+                      <span v-if="orderInfo.status == 10">订单完成</span>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="deta_list ddsj_L">
+                <ul>
+                    <li>
+                        <h2>发货方信息</h2>
+                        <div class="form_box">
+                            <form action="" method="">
+                                <div class="big_list">
+                                    <div class="list">
+                                        <span><i>*</i>发货地址</span>
+                                        <span class="no_pad">广东省</span>
+                                        <span class="no_pad">深圳市</span>
+                                        <span class="no_pad">光明新区</span>
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>发货人</span>
+                                        <input type="button" v-model="orderInfo.f_user_name" name="text" placeholder="">
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>详细地址</span>
+                                        <input type="button" v-model="orderInfo.f_address" name="text" placeholder="">
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>手机号码</span>
+                                        <input type="button" v-model="orderInfo.f_phone" name="text" placeholder="">
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>订单号</span>
+                                        <input type="button" v-model="orderInfo.order_id" name="text" placeholder="">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>收货方信息</h2>
+                        <div class="form_box">
+                            <form action="" method="">
+                                <div class="big_list">
+                                    <div class="list">
+                                        <span><i>*</i>收货地址</span>
+                                        <span class="no_pad">广东省</span>
+                                        <span class="no_pad">深圳市</span>
+                                        <span class="no_pad">光明新区</span>
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>收货人</span>
+                                        <input type="button" v-model="orderInfo.s_user_name" name="text" placeholder="">
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>详细地址</span>
+                                        <input type="button" v-model="orderInfo.s_address" name="text" placeholder="">
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>手机号码</span>
+                                        <input type="button" v-model="orderInfo.s_phone" name="text" placeholder="">
+                                    </div>
+                                    <div class="list">
+                                        <span><i>*</i>订单号</span>
+                                        <input type="button" v-model="orderInfo.order_id" name="text" placeholder="">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>货物信息</h2>
+                        <div class="form_box form_box2">
+                            <form action="" method="">
+                                <div class="big_list big_list2" v-for="(item,index) of goodsInfo">
+                                    <div class="list">
+                                        <span>货物名称 </span>
+                                        <input type="button" v-model="item.goods_name" name="text" placeholder="">
+
+                                    </div>
+                                    <div class="list">
+                                        <span>包装规格</span>
+                                        <span class="o_span">{{item.speci}}</span>
+                                    </div>
+                                    <div class="list">
+                                        <span>件数</span>
+                                        <input type="button" v-model="item.nums" name="text" placeholder="">
+                                    </div>
+                                    <div class="list">
+                                        <span class="span2">单件毛量（KG）</span>
+                                        <input type="button" v-model="item.kgs" name="text" class="input2" placeholder=" ">
+                                    </div>
+                                    <div class="list">
+                                        <span class="span2">单件体积（m³）</span>
+                                        <input type="button" v-model="item.ms" name="text" class="input2" placeholder=" ">
+                                    </div>
+                                    <!-- <div class="list">
+                                        <span>发货时间</span>
+                                        <span class="no_pad">12-18</span>
+                                    </div> -->
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>货物保价</h2>
+                        <div class="form_box">
+                            <form action="" method="">
+                                <div class="big_list">
+                                    <div class="list">
+                                        <span class="span2">申明货物价值(元)</span>
+                                        <input type="button" v-model="orderInfo.affirm_money" name="text" class="input2" placeholder="">
+
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>发票信息</h2>
+                        <div class="form_box">
+                            <form action="" method="">
+                                <div class="big_list">
+                                    <div class="list_aa list_bb">
+                                        <h6 v-if="orderInfo.is_invoice == 1">普通发票</h6>
+                                        <h6 v-if="orderInfo.is_invoice == 2">增值税发票</h6>
+                                        <h6 v-if="orderInfo.is_invoice == 3">不需要发票</h6>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>支付方式</h2>
+                        <div class="form_box">
+                            <form action="" method="">
+                                <div class="big_list">
+                                    <div class="list_aa list_bb">
+                                        <h6>发货人支付（预付）</h6>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>发货方要求发货时间</h2>
+                        <div class="form_box">
+                            <form action="" method="">
+                                <div class="big_list">
+                                    <div class="list_aa list_bb">
+                                        <h6>{{orderInfo.deliver_time}}</h6>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h2>回单选择</h2>
+                        <div class="form_box">
+                            <form action="" method="">
+                                <div class="big_list">
+                                    <div class="list_aa list_bb">
+                                        <h6 v-if="orderInfo.is_return == 1">收条/厂单</h6>
+                                        <h6 v-if="orderInfo.is_return == 2">签收原件返回</h6>
+                                        <h6 v-if="orderInfo.is_return == 3">照片返回</h6>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <h2 class="no_tp">备注</h2>
+                        <textarea name="" cols="" rows="" v-model="orderInfo.remarks" placeholder="快来描述您的问题吧!"></textarea>
+                    </li>
+                    <li>
+                        <h3>总价<span>¥ {{orderInfo.all_money}}</span></h3>
+                    </li>
+                    <li class="button" v-if="orderInfo.status == 1 || orderInfo.status == 2">
+                        <a href="javascropt:;" class="payment" @click="setOrderStatus(3)">终止订单</a>
+                    </li>
+                    <li class="button" v-if="orderInfo.status == 2">
+                        <a href="javascropt:;" class="payment" @click="setOrderStatus(4)">支付货款</a>
+                    </li>
+                    <li class="button" v-if="orderInfo.status>=4 && orderInfo.status <= 9">
+                        <a href="javascropt:;" class="payment" @click="setOrderStatus(10)">签收货物</a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="../script/api.js"></script>
+    <script src="../script/swiper.js"></script>
+    <script src="../script/app.js"></script>
+    <script src="../script/public.js"></script>
+    <script src="../script/jquery.js"></script>
+    <script src="../script/vue.js"></script>
+
+    <script>
+        $(function() {
+            //下拉框
+            $('.deta_list ul li h2').on("click", function() {
+                $(this).siblings(".form_box").slideToggle(500)
+                $(this).toggleClass("active")
+            })
+        })
+
+        apiready = function() {
+            api.parseTapmode();
+
+            var header = $api.dom('header'); // 获取 header 标签元素
+            var footer = $api.dom('footer'); // 获取 footer 标签元素
+            var section = $api.dom('.container');
+            var sectionH = $api.fixStatusBar(section);
+            var headerH = $api.fixStatusBar(header);
+            //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+            var footerH = $api.fixTabBar(footer);
+            var orderId = api.pageParam.orderId;
+            // alert(orderId)
+            // orderId = 168;
+            var vm = new Vue({
+                    el: '#root',
+                    data: {
+                        orderInfo: {},
+                        goodsInfo: {}
+                    },
+                    methods: {
+                        //设置订单状态
+                        setOrderStatus:function(status){
+                          var url = HOST+'/api/Order/setOrderStatus'
+                          var appToken = $api.getStorage('appToken');
+                          var orderId = this.orderInfo.order_id;
+                          var _this = this;
+                          api.showProgress();
+                          api.ajax({
+                              url: url,
+                              method: 'post',
+                              headers: {
+                                  'X-Requested-With': 'XMLHttpRequest'
+                              },
+                              data: {
+                                  values: {
+                                      appToken:appToken,
+                                      orderId: orderId,
+                                      status:status
+                                  }
+                              }
+                          },function(ret, err){
+                              api.hideProgress();
+                              if (ret && ret.code == 1) {
+                                  alert(ret.msg);
+                                  api.sendEvent({
+                                      name: 'renovateOrder'
+                                  });
+                                  api.closeWin();
+                              }else{
+                                alert(ret.msg)
+                              }
+                          });
+
+                        },
+                        //调取环信支付
+                        toPay: function() {
+                            var url = 'http://7j-wl.com/home/pay/ipsPay'
+                        },
+                        //获取订单详情
+                        getOrderInfo: function(orderId) {
+                            var url = HOST + '/api/Order/getOrderInfo';
+                            var _this = this;
+                            api.ajax({
+                                url: url,
+                                method: 'post',
+                                headers: {
+                                    'X-Requested-With': 'XMLHttpRequest'
+                                },
+                                data: {
+                                    values: {
+                                        orderId: orderId
+                                    }
+                                }
+                            }, function(ret, err) {
+                                if (ret && ret.code == 1) {
+                                    var orderinfo = ret.data.orderInfo;
+                                    orderinfo['add_time'] = _this.timestampToTime(orderinfo['add_time']);
+                                    _this.orderInfo = orderinfo;
+                                    _this.goodsInfo = ret.data.orderInfo.goodsInfo;
+                                    // alert( JSON.stringify( ret ) );
+                                }
+                            });
+
+                        },
+                        timestampToTime:function (timestamp) {
+                            var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                            Y = date.getFullYear() + '-';
+                            M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                            D = this.change(date.getDate()) + ' ';
+                            h = this.change(date.getHours()) + ':';
+                            m = this.change(date.getMinutes()) + ':';
+                            s = this.change(date.getSeconds());
+                            return Y + M + D + h + m + s;
+                        },
+                       change:function(t) {
+                            if (t < 10) {
+                                return "0" + t;
+                            } else {
+                                return t;
+                            }
+                        }
+                    },
+                    created: function() {
+                        var orderId = api.pageParam.orderId;
+                        this.getOrderInfo(orderId);
+                    }
+                })
+                //监听返回按钮关闭
+            api.addEventListener({
+                name: 'keyback'
+            }, function(ret, err) {
+                if (ret) {
+                    api.closeWin({
+                        name: 'cen_deta'
+                    });
+                }
+            });
+            //关闭当前页
+            $('.reSP').bind('click', function() {
+                api.closeWin({
+                    name: 'cen_deta'
+                });
+            });
+            //跳转支付页
+            $('.payment').bind('click', function() {
+                api.openWin({
+                    name: 'payment',
+                    url: 'payment.html',
+                    pageParam: {
+                        name: 'test'
+                    },
+
+                    bounces: false
+                });
+            });
+
+        }
+    </script>
+
+</body>
+
+</html>

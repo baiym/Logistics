@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta content="black" name=" apple-mobile-web-app-capable" />
+    <title>物流商入住</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet" />
+    <link href="../css/common.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body class="bgfff">
+<!--头部-->
+    <header>
+        <div class="in_top">
+            <div class="top_left">
+                <a href="javascript:;">
+                </a>
+            </div>
+            <div class="top_con">
+                <h2>物流商资质申请</h2>
+            </div>
+        </div>
+    </header>
+<!--头部End-->
+    <div class="container">
+        <div class="cen_main cen_ed">
+            <ul class="list_C">
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>公司全称</span>
+                        <!-- <em> XXXXXXX有限公司</em> -->
+                        <input placeholder="请输入公司全称"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>公司简称</span>
+                        <input placeholder="请输入公司简介"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>公司法人</span>
+                        <input placeholder="请输入公司法人"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>税务登记号</span>
+                        <input placeholder="请输入税务登记号"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>公司电话</span>
+                        <input placeholder="请输入公司电话"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>公司传真</span>
+                        <input placeholder="请输入公司传真"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>邮政编码</span>
+                        <input placeholder="请输入公司邮政编码"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>详细地址</span>
+                        <input placeholder="请输入详细地址"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>公司开户行</span>
+                        <input placeholder="请输入公司开户行"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>银行账号</span>
+                        <input placeholder="请输入银行账号"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>联系人姓名</span>
+                        <input placeholder="请输入联系人姓名"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>手机号码</span>
+                        <input placeholder="请输入手机号码"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>联系地址</span>
+                        <input placeholder="请输入联系地址"/>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="aa1">
+                        <span>公司LOGO图片</span>
+                        <b style="background: url(../image/head.png) no-repeat center;background-size: cover;">
+                            <input type="file" class="file">
+                        </b>
+                    </a>
+                </li>
+                <li>
+                    <a class="aa1">
+                        <span>营业执照证副本</span>
+                        <b style="background: url(../image/head.png) no-repeat center;background-size: cover;">
+                            <input type="file" class="file">
+                        </b>
+                    </a>
+                </li>
+                <li>
+                    <a class="aa1">
+                        <span>公路运输许可证副本</span>
+                        <b style="background: url(../image/head.png) no-repeat center;background-size: cover;">
+                            <input type="file" class="file">
+                        </b>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="only_editTX">
+                        <span>其他资质副本</span>
+                        <em> </em>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="but">
+            <input type="button" value="提交" class="button">
+        </div>
+    </div>
+<script src="../script/api.js"></script>
+<script src="../script/app.js"></script>
+<script src="../script/jquery.js"></script>
+<script src="../script/city-picker.data.js"></script>
+<script src="../script/city-picker.js"></script>
+<script>
+  apiready = function() {
+    api.parseTapmode();
+
+    var header = $api.dom('header'); // 获取 header 标签元素
+    var footer = $api.dom('footer'); // 获取 footer 标签元素
+    var headerH = $api.fixStatusBar(header);
+    var section = $api.dom('.container');
+    var sectionH = $api.fixStatusBar(section);
+  //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+    var footerH = $api.fixTabBar(footer);
+
+      $('.only_editTX').bind('click',function () {
+        api.openWin({
+            name: 'only_edit',
+            url: 'only_edit.html',
+            pageParam: {
+                name: 'test'
+            },
+            bounces:false
+        });
+      });
+
+      $('.button').bind('click',function () {
+        api.openWin({
+            name: 'log_chearin_OK',
+            url: 'log_chearin_OK.html',
+            pageParam: {
+                name: 'test'
+            },
+            bounces:false
+        });
+      });
+
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>7加物流</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <style type="text/css">
+        html{height:100%;overflow:hidden; }
+        body{height:100%;overflow:auto; margin:0;}
+
+        .wrap {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+        }
+
+        .flex-1 {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+        }
+    </style>
+</head>
+
+<body class="wrap">
+
+    <footer id="foterTab">
+        <div class="ftTab">
+          <ul class="ftTabList clearfix">
+              <li>
+                <p class="ftTab_p ftTab_p1 style"></p>
+                <a href="javascript:;" class="ftTab_a style">首页</a>
+              </li>
+              <li>
+                <p class="ftTab_p ftTab_p2"></p>
+                <a href="javascript:;" class="ftTab_a">物流商入驻</a>
+              </li>
+              <li>
+                <p class="ftTab_p ftTab_p3"></p>
+                <a href="javascript:;" class="ftTab_a">关于我们</a>
+              </li>
+              <li>
+                <p class="ftTab_p ftTab_p4"></p>
+                <a href="javascript:;" class="ftTab_a">个人中心</a>
+              </li>
+          </ul>
+        </div>
+    </footer>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script src="../script/jquery.js" charset="utf-8"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.parseTapmode();
+        api.addEventListener({
+          name : 'keyback'
+        }, function(ret, err) {
+          api.toast({
+            msg : '再点一次退出应用',
+            duration : 2000,
+            location : 'bottom'
+          });
+          api.addEventListener({
+            name : 'keyback'
+          }, function(ret, err) {
+            api.closeWidget({
+              silent : true
+            });
+          });
+        });
+        var header = $api.dom('header'); // 获取 header 标签元素
+        var footer = $api.dom('footer'); // 获取 footer 标签元素
+        var headerH = $api.fixStatusBar(header);
+        // 最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+        var footerH = $api.fixTabBar(footer);
+        var footoffse = $api.offset(footer);
+        var FrameH = api.winHeight - footoffse.h;
+        var foHser = footoffse.h;
+        $('.ftTabList li').last().css('margin-right','0');
+
+
+        var Index_List = 0;
+        $('.ftTabList li').bind('click',function() {
+            Index_List = $(this).index();
+            $('.ftTab_p').removeClass('style');
+            $('.ftTab_a').removeClass('style');
+            $('.ftTab_p').eq(Index_List).addClass('style');
+            $('.ftTab_a').eq(Index_List).addClass('style');
+            api.setFrameGroupIndex({
+                name: 'index_tab',
+                index: Index_List
+                //scroll: true  动画
+            });
+        });
+        api.openFrameGroup ({
+            name: 'index_tab',
+            scrollEnabled: false, //滑动切换
+            rect: {
+                 x: 0,
+                 y: 0,
+                 w: 'auto',
+                 h: FrameH
+            },
+            index: Index_List,
+            preload: 3,
+            frames: [{
+                name: 'Home_page',
+                url: 'Home_page.html',
+                bgColor:'#f4f4f4',
+                bounces:false
+            },{
+                name: 'log_chearin',
+                url: 'log_chearin.html',
+                bgColor:'#f4f4f4',
+                bounces:false,
+                pageParam:{
+                  foots:foHser
+                }
+            },{
+                name: 'about_us',
+                url: 'about_us.html',
+                bgColor:'#f4f4f4',
+                bounces:false
+            },{
+                name: 'center',
+                url: 'center.html',
+                bgColor:'#f4f4f4',
+                bounces:false
+            }]
+        }, function(ret, err){
+            if( ret ){
+                 if (ret.index !== 1) {
+                   api.setFrameGroupAttr({
+                        name: 'FindGroup',
+                        hidden: true
+                    });
+                 }else {
+                   api.setFrameGroupAttr({
+                        name: 'FindGroup',
+                        hidden: false
+                    });
+                 }
+                 $('.ftTab_p').removeClass('style');
+                 $('.ftTab_a').removeClass('style');
+                 $('.ftTab_p').eq(ret.index).addClass('style');
+                 $('.ftTab_a').eq(ret.index).addClass('style');
+            }else{
+                 console.log( JSON.stringify( err ) );
+            }
+        });
+    };
+
+</script>
+
+</html>

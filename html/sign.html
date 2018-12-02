@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+	<meta content="black" name=" apple-mobile-web-app-capable" />
+	<title>登录</title>
+	<meta name="keywords" content="关键词">
+	<meta name="description" content="网站描述">
+	<link href="../css/api.css" rel="stylesheet" />
+	<link href="../css/common.css" rel="stylesheet" />
+	<link href="../css/style.css" rel="stylesheet" />
+	<link rel="stylesheet" href="../css/swiper.css">
+	<link href="../css/city-picker.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="but0 bgfff">
+	<div id="root">
+		<!--头部-->
+		<header>
+			<div class="in_top SI_top">
+				<div class="top_left" onclick="api.closeWin();">
+					<a href="javascript:;" class="reSP">
+						<span></span>
+					</a>
+				</div>
+				<div class="top_con">
+					<h2>登录</h2>
+				</div>
+			</div>
+		</header>
+		<!--头部End-->
+		<div class="container">
+			<div class="sign_con con">
+				<img src="../image/sign_pic.png" alt="">
+				<!-- <div class="tit_S">
+						<span :class="[userType  == 1 ? 'active' : '']" data-id='1' @click="switchActive">我是货主</span>
+						<span :class="[userType  == 2 ? 'active' : '']" data-id='2' @click="switchActive">我是物流商</span>
+					</div> -->
+				<div class="hide">
+					<form method="post" action="">
+						<div class="formBox">
+							<input v-model="username" type="text" value="" name="UserName" class="text" placeholder="请输入账号或手机号">
+						</div>
+						<div class="formBox">
+							<input v-model="password" type="password" value="" name="Password" class="text Password border0" placeholder="请输入密码">
+							<a href="javascript:;" class="password_ret" @click="password_ret">忘记密码？</a>
+						</div>
+						<div class="formBox" @click="login">
+							<input type="button" value="登录" class="btn_sign center_but">
+						</div>
+					</form>
+					<div class="sign_T">
+						<a href="javascript:;" class="register" @click="register">还没有账号？<span>立即注册</span></a>
+					</div>
+				</div>
+				<!-- <div class="sign_F">
+					<h2>第三方账号登录</h2>
+					<ul class="register3F_UL">
+						<li>
+							<a href="javascript:;" class="a1">微信</a>
+						</li>
+						<li>
+							<a href="javascript:;" class="a2">微博</a>
+						</li>
+						<li>
+							<a href="javascript:;" class="a3">QQ</a>
+						</li>
+					</ul>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<script src="../script/api.js"></script>
+	<script src="../script/swiper.js"></script>
+	<script src="../script/app.js"></script>
+	<script src="../script/jquery.js"></script>
+	<script src="../script/city-picker.data.js"></script>
+	<script src="../script/city-picker.js"></script>
+	<script src="../script/public.js"></script>
+	<script src="../script/vue.js"></script>
+	<script>
+		var vm = new Vue({
+				el: '#root',
+				data: {
+					userType: 1, //1是货主 2是物流商
+					username: '', //账号
+					password: '', //密码
+				},
+				methods: {
+					//切换登录态
+					switchActive: function(e) {
+						var userType = (e.target).dataset.id;
+						this.userType = userType;
+					},
+					//去注册
+					register: function(e) {
+						api.openWin({
+							name: 'register',
+							url: 'register.html',
+							pageParam: {
+								name: 'test'
+							},
+							bounces: false
+						});
+					},
+					//找回密码
+					password_ret: function(e) {
+						api.openWin({
+							name: 'password_ret',
+							url: 'password_ret.html',
+							pageParam: {
+								name: 'test'
+							},
+							bounces: false
+						});
+					},
+					//登录
+					login: function(e) {
+						var url = HOST + '/api/auth/login';
+						var username = this.username;
+						var password = this.password;
+						var _this = this;
+						api.ajax({
+							url: url,
+							method: 'post',
+							headers: {
+								'X-Requested-With': 'XMLHttpRequest'
+							},
+							data: {
+								values: {
+									username: username,
+									password: password
+								}
+							}
+						}, function(ret) {
+							console.log(JSON.stringify(ret));
+							alert(ret.msg);
+							if (ret.code == 1) {
+								//处理登录流程
+								console.log(ret.data.appToken);
+								$api.setStorage('appToken', ret.data.appToken);
+								_this.get_user_info(ret.data.appToken);
+							}
+						});
+					},
+					get_user_info: function(appToken) {
+						var url = HOST + '/api/user/getUserInfo';
+						api.ajax({
+							url: url,
+							method: 'get',
+							data:{
+								values: {
+									appToken:appToken
+								}
+							},
+							headers: {
+								'X-Requested-With': 'XMLHttpRequest'
+							},
+						}, function(ret) {
+							if (ret) {
+								console.log(JSON.stringify(ret));
+								var userInfo = ret.data.userInfo;
+								userInfo.avatar = 'http://www.7j-wl.com'+userInfo.avatar
+								$api.setStorage('userInfo', userInfo);
+								api.sendEvent({
+								    name: 'login'
+								});
+								api.closeWin();
+							}
+						});
+					}
+				}
+			})
+			//			$(function() {
+			//				//个人登录于物流商登录之间的切换
+			//				$('.sign_con .tit_S span').on("click", function() {
+			//					$(this).addClass("active span").siblings().removeClass("active span");
+			//					$(".hide").eq($(this).index()).show().siblings(".hide").hide();
+			//				})
+			//			})
+
+		apiready = function() {
+			api.parseTapmode();
+
+			var header = $api.dom('header'); // 获取 header 标签元素
+			var footer = $api.dom('footer'); // 获取 footer 标签元素
+			var headerH = $api.fixStatusBar(header);
+			var section = $api.dom('.container');
+			var sectionH = $api.fixStatusBar(section);
+			//最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+			var footerH = $api.fixTabBar(footer);
+			var arr_link = ['register3F', 'register3F', 'register3F'];
+
+			// $('.register3F_UL li').bind('click', function() {
+			// 	arr_linkfun(arr_link[$(this).index()]);
+			// })
+			//
+			// function arr_linkfun(name) {
+			// 	api.openWin({
+			// 		name: name,
+			// 		url: name + '.html',
+			// 		pageParam: {
+			// 			name: 'test'
+			// 		},
+			// 		bounces: false,
+			// 		animation: {
+			// 			type: "push", //动画类型（详见动画类型常量）
+			// 			subType: "from_right", //动画子类型（详见动画子类型常量）
+			// 			duration: 300 //动画过渡时间，默认300毫秒
+			// 		}
+			// 	});
+			// }
+
+			api.addEventListener({
+				name: 'keyback'
+			}, function(ret, err) {
+				if (ret) {
+					api.closeWin({
+						name: 'sign'
+					});
+				}
+			});
+
+			// $('.reSP').bind('click', function() {
+			// 	api.closeWin({
+			// 		name: 'sign'
+			// 	});
+			//
+			// });
+			//
+			// $('.password_ret').bind('click', function() {
+			// 	api.openWin({
+			// 		name: 'password_ret',
+			// 		url: 'password_ret.html',
+			// 		pageParam: {
+			// 			name: 'test'
+			// 		},
+			//
+			// 		bounces: false
+			// 	});
+			// });
+			//
+			// $('.register').bind('click', function() {
+			// 	api.openWin({
+			// 		name: 'register',
+			// 		url: 'register.html',
+			// 		pageParam: {
+			// 			name: 'test'
+			// 		},
+			//
+			// 		bounces: false
+			// 	});
+			// });
+			//
+			// $('.btn_sign').bind('click', function() {
+			// 	api.openWin({
+			// 		name: 'index',
+			// 		url: 'index.html',
+			// 		pageParam: {
+			// 			name: 'test'
+			// 		},
+			//
+			// 		bounces: false
+			// 	});
+			// });
+			// $('.btn_sign').bind('click', function() {
+			// 	api.openWin({
+			// 		name: 'index',
+			// 		url: 'index.html',
+			// 		pageParam: {
+			// 			name: 'test'
+			// 		},
+			//
+			// 		bounces: false
+			// 	});
+			// });
+
+		}
+	</script>
+
+</body>
+
+</html>

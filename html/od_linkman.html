@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta content="black" name=" apple-mobile-web-app-capable"/>
+    <title>下单详情</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet"/>
+    <link href="../css/common.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<style>
+    input{
+        background: #fff;
+        border: 1px solid #c5c5c5;
+        padding-left: 5px;
+
+    }
+</style>
+<body class="but0 bgfff">
+<!--头部-->
+<header>
+    <div class="in_top">
+        <div class="top_left">
+            <a href="javascript:;" class="reSP">
+                <span></span>
+            </a>
+        </div>
+        <div class="top_con">
+            <h2>选择联系人</h2>
+        </div>
+        <div class="top_right">
+            <a href="javascript:;" class="reSP">确定</a>
+        </div>
+
+    </div>
+</header>
+<!--头部End-->
+<div class="container ">
+    <div class="O_lin con">
+        <ul>
+            <li>
+                <div class="input_L">
+                    <span>张伟</span><a href="#0" onclick="cg(this)"></a>
+                    <span>15444875896</span>
+                </div>
+                <em></em>
+            </li>
+            <li>
+                <div class="input_L">
+                    <span>张伟</span><a href="#0" onclick="cg(this)"></a>
+                    <span class="span2">15444875896</span>
+                </div>
+                <em></em>
+            </li>
+            <li>
+                <div class="input_L">
+                    <span>张伟</span><a href="#0" onclick="cg(this)"></a>
+                    <span class="span2">15444875896</span>
+                </div>
+                <em></em>
+            </li>
+            <li>
+                <div class="input_L">
+                    <span>张伟</span><a href="#0" onclick="cg(this)"></a>
+                    <span class="span2">15444875896</span>
+                </div>
+                <em></em>
+            </li>
+        </ul>
+
+    </div>
+
+</div>
+<script src="../script/api.js"></script>
+<script src="../script/swiper.js"></script>
+<script src="../script/app.js"></script>
+<script src="../script/jquery.js"></script>
+<script src="../script/city-picker.data.js"></script>
+<script src="../script/city-picker.js"></script>
+
+<script>
+    $(function () {
+        $(".O_lin ul li em").click(function () {
+            $(this).toggleClass("active").siblings().removeClass("active")
+        })
+    })
+
+    function cg(obj){
+        var o=obj.previousSibling;
+        if(o.childNodes[0].value) {
+            o.innerHTML =  o.childNodes[0].value;
+        }else{
+            o.innerHTML="<input type='text' value='"+o.innerHTML+"' />";
+        }
+
+    }
+
+    apiready = function() {
+      api.parseTapmode();
+
+      var header = $api.dom('header'); // 获取 header 标签元素
+      var footer = $api.dom('footer'); // 获取 footer 标签元素
+      var section = $api.dom('.container');
+      var sectionH = $api.fixStatusBar(section);
+      var headerH = $api.fixStatusBar(header);
+    //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+      var footerH = $api.fixTabBar(footer);
+
+        api.addEventListener({
+            name:'keyback'
+        }, function(ret, err){
+          if (ret) {
+             api.closeWin({
+                 name: 'od_linkman'
+             });
+          }
+        });
+
+        $('.reSP').bind('click',function() {
+          api.closeWin({
+              name: 'od_linkman'
+          });
+
+        });
+        $('.order_2').bind('click',function () {
+          api.openWin({
+              name: 'order_2',
+              url: 'order_2.html',
+              pageParam: {
+                  name: 'test'
+              },
+
+              bounces:false
+          });
+        });
+
+      }
+
+
+</script>
+
+</body>
+</html>

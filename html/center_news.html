@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta content="black" name=" apple-mobile-web-app-capable" />
+    <title>我的消息</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet" />
+    <link href="../css/common.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body class="but0">
+    <!--头部-->
+    <header>
+        <div class="in_top">
+            <div class="top_left">
+                <a href="javascript:;" class="reSP">
+                    <span></span>
+                </a>
+            </div>
+            <div class="top_con">
+                <h2>我的消息</h2>
+            </div>
+            <div class="top_right">
+                <a href="javascript:;"></a>
+            </div>
+        </div>
+    </header>
+    <!--头部End-->
+
+    <div class="container " id="root">
+        <div class="cen_new con">
+            <ul>
+                <li v-for="(item,index) of msgList">
+                    <h3>{{item.create_time}}</h3>
+                    <div class="new_tit">
+                        <h2>{{item.title}}</h2>
+                        <span>{{item.content}}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../script/api.js"></script>
+    <script src="../script/app.js"></script>
+    <script src="../script/jquery.js"></script>
+    <script src="../script/public.js"></script>
+    <script src="../script/vue.js"></script>
+    <script>
+        apiready = function() {
+            api.parseTapmode();
+
+            var header = $api.dom('header'); // 获取 header 标签元素
+            var footer = $api.dom('footer'); // 获取 footer 标签元素
+            var headerH = $api.fixStatusBar(header);
+            var section = $api.dom('.container');
+            var sectionH = $api.fixStatusBar(section);
+            //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+            var footerH = $api.fixTabBar(footer);
+            var vm = new Vue({
+                el: '#root',
+                data: {
+                    msgList: []
+                },
+                methods: {
+                    //分页获取消息列表/api/user/getMsg
+                    getMsgList() {
+                        var appToken = $api.getStorage('appToken');
+                        var url = HOST + '/api/user/getMsg?appToken=' + appToken + '';
+                        var _this = this;
+                        api.ajax({
+                            url: url,
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            method: 'get',
+                            data: {
+                                values: {
+                                    page: 1,
+                                    limit: 100
+                                }
+                            }
+                        }, function(ret, err) {
+                            if (ret) {
+                                if (ret.code == 1) {
+                                    if (ret.data.total == 0) {
+                                        alert('暂无消息');
+                                        api.closeWin({
+                                            name: 'center_news'
+                                        });
+                                    }
+                                    _this.msgList = ret.data.data
+                                }
+                                // alert( JSON.stringify( ret ) );
+                            } else {
+                                alert(JSON.stringify(err));
+                            }
+                        });
+
+                    }
+                },
+                created: function() {
+                    this.getMsgList();
+                }
+            })
+            api.addEventListener({
+                name: 'keyback'
+            }, function(ret, err) {
+                if (ret) {
+                    api.closeWin({
+                        name: 'center_news'
+                    });
+                }
+            });
+
+            $('.reSP').bind('click', function() {
+                api.closeWin({
+                    name: 'center_news'
+                });
+
+            });
+
+
+        }
+    </script>
+
+</body>
+
+</html>

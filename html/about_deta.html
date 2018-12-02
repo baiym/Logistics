@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<meta content="black" name=" apple-mobile-web-app-capable" />
+		<title>行业动态-详情</title>
+		<meta name="keywords" content="关键词">
+		<meta name="description" content="网站描述">
+		<link href="../css/api.css" rel="stylesheet" />
+		<link href="../css/common.css" rel="stylesheet" />
+		<link href="../css/style.css" rel="stylesheet" />
+
+	</head>
+
+	<body class="bgfff">
+		<div id="root">
+			<!--头部-->
+			<header>
+				<div class="in_top">
+					<div class="top_left" onclick="api.closeWin()">
+						<a href="javascript:;" class="reSP">
+							<span></span>
+						</a>
+					</div>
+					<div class="top_con">
+						<h2>行业动态</h2>
+					</div>
+					<div class="top_right">
+						<a href=""></a>
+					</div>
+				</div>
+			</header>
+			<!--头部End-->
+			<div class="container">
+				<div class="con">
+					<div class="adeta_con">
+						<h2 v-text="newsInfo.title"></h2>
+						<span v-text="newsInfo.createtime"></span>
+						<div v-html="newsInfo.content"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../script/api.js"></script>
+		<script src="../script/app.js"></script>
+		<script src="../script/jquery.js"></script>
+		<script src="../script/city-picker.data.js"></script>
+		<script src="../script/city-picker.js"></script>
+		<script src="../script/public.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../script/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			apiready = function() {
+				api.parseTapmode();
+
+				var vm = new Vue({
+					el: "#root",
+					data: {
+						newsInfo: ''
+					},
+					methods: {
+						get_info: function(id) {
+							var _this = this;
+							var url = HOST + '/api/index/newsInfo?id=' + id + '';
+							api.ajax({
+								url: url,
+								method: 'get',
+								headers: {
+									'X-Requested-With': 'XMLHttpRequest'
+								}
+							}, function(ret) {
+								if(ret && ret.code == 1) {
+									console.log(JSON.stringify(ret.data.newsInfo));
+									var newsInfo = ret.data.newsInfo;
+									newsInfo.createtime = _this.RiQi(newsInfo.createtime);
+									_this.newsInfo = newsInfo;
+								}
+							});
+						},
+						RiQi: function(sj) {
+							var now = new Date(sj * 1000);
+							var year = now.getFullYear();
+							var month = now.getMonth() + 1;
+							var date = now.getDate();
+							var hour = now.getHours();
+							var minute = now.getMinutes();
+							var second = now.getSeconds();
+							return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
+
+						},
+
+					},
+					created: function() {
+						var id = api.pageParam.id;
+						console.log('新闻id是' + id);
+						this.get_info(id);
+					}
+				})
+				var header = $api.dom('header'); // 获取 header 标签元素
+				var footer = $api.dom('footer'); // 获取 footer 标签元素
+				var section = $api.dom('.container');
+				var sectionH = $api.fixStatusBar(section);
+				var headerH = $api.fixStatusBar(header);
+				//最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+				var footerH = $api.fixTabBar(footer);
+
+				api.addEventListener({
+					name: 'keyback'
+				}, function(ret, err) {
+					if(ret) {
+						api.closeWin()
+					}
+				});
+
+			}
+		</script>
+
+	</body>
+
+</html>

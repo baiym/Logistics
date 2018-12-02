@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+    <meta content="black" name=" apple-mobile-web-app-capable"/>
+    <title>物流商个人中心</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet"/>
+    <link href="../css/common.css" rel="stylesheet"/>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+
+<!--内容-->
+<!--头部-->
+<header>
+    <div class="in_top cen_top">
+        <div class="top_left">
+            <a href="javascript:;">
+            </a>
+        </div>
+        <div class="top_con">
+            <h2>个人中心</h2>
+        </div>
+        <div class="top_right">
+            <a href="javascript:;" class="CE_edit">
+                <span></span>
+            </a>
+        </div>
+    </div>
+</header>
+<!--头部End-->
+<div class="container">
+    <div class="cen_con add_adfix">
+        <div class="my_tit">
+            <div class="head">
+                <img src="../image/cen_pic1.png" alt=""/>
+                <h2>张先生</h2>
+            </div>
+        </div>
+
+        <div class="cen_main">
+            <ul class="list_C">
+                <li>
+                    <a href="javascript:;" class="per_myorder">我的订单</a>
+                </li>
+            </ul>
+        </div>
+        <div class="in-nav cen_nav per_nav">
+            <ul class="cen_last1H">
+                <li>
+                    <a href="javascript:;" class="a1">未完成</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="a2">运输中</a>
+                    <span>1</span>
+                </li>
+                <li>
+                    <a href="javascript:;" class="a3">已完成</a>
+                </li>
+            </ul>
+        </div>
+        <div class="cen_main cen_main2 per_main">
+            <ul class="list_C list_C2">
+                <li>
+                    <a href="javascript:;" class="a1">新订单</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="a2">车辆管理</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="a3">专线管理</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="a4">发票管理</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="a5">我的钱包</a>
+                </li>
+                <li>
+                    <a href="javascript:;" class="a6">消息中心</a>
+                </li>
+
+                <li>
+                    <a class="a7">分享应用</a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+<!--内容End-->
+<!--弹框-->
+<!--分享-->
+<div class="bom_box bom_box5" style="display: none">
+    <div class="cen_BBox">
+        <div class="BBox">
+            <ul>
+                <li><a href="javascript:;"></a></li>
+                <li><a href="javascript:;"></a></li>
+                <li><a href="javascript:;"></a></li>
+                <li><a href="javascript:;"></a></li>
+            </ul>
+            <div class="cen_H"><a class="a3">取消</a></div>
+        </div>
+    </div>
+</div>
+<!--分享-->
+
+
+<!--弹框End-->
+<script src="../script/api.js"></script>
+<script src="../script/swiper.js"></script>
+<script src="../script/app.js"></script>
+<script src="../script/jquery.js"></script>
+<script src="../script/city-picker.data.js"></script>
+<script src="../script/city-picker.js"></script>
+<script>
+    $(function () {
+        //分享
+        $(".cen_main2 .list_C li a.a7").on("click",function(){
+            $(".bom_box5").show()
+        })
+
+        $(".cen_BBox .cen_H .a3").on("click",function(){
+            $(".bom_box5").hide()
+        })
+    })
+
+    apiready = function() {
+      api.parseTapmode();
+      api.addEventListener({
+        name : 'keyback'
+      }, function(ret, err) {
+        api.toast({
+          msg : '再点一次退出应用',
+          duration : 2000,
+          location : 'bottom'
+        });
+        api.addEventListener({
+          name : 'keyback'
+        }, function(ret, err) {
+          api.closeWidget({
+            silent : true
+          });
+        });
+      });
+      var header = $api.dom('header'); // 获取 header 标签元素
+      var footer = $api.dom('footer'); // 获取 footer 标签元素
+      var headerH = $api.fixStatusBar(header);
+      var section = $api.dom('.container');
+      var sectionH = $api.fixStatusBar(section);
+    //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+      var footerH = $api.fixTabBar(footer);
+      var arr_link = ['per_myorderwwc','per_myorderysz','per_myorderywc'];
+      var arr_link2 = ['per_neworder','per_car','per_line','center_invoice','center_wallet','center_news'];
+      $('.cen_last1H li').bind('click',function() {
+        arr_linkfun(arr_link[$(this).index()]);
+      })
+
+      $('.list_C2 li').bind('click',function() {
+        arr_linkfun(arr_link2[$(this).index()]);
+      })
+
+      function arr_linkfun(name) {
+        api.openWin({
+            name: name,
+            url: name+'.html',
+            pageParam: {
+                name: 'test'
+            },
+            bounces: false,
+            animation:{
+                type:"push",                //动画类型（详见动画类型常量）
+                subType:"from_right",       //动画子类型（详见动画子类型常量）
+                duration:300                //动画过渡时间，默认300毫秒
+            }
+        });
+      }
+
+      $('.CE_edit').bind('click',function () {
+        api.openWin({
+            name: 'cen_edit',
+            url: 'cen_edit.html',
+            pageParam: {
+                name: 'test'
+            },
+
+            bounces:false
+        });
+      });
+
+      $('.per_myorder').bind('click',function () {
+        api.openWin({
+            name: 'per_myorder',
+            url: 'per_myorder.html',
+            pageParam: {
+                name: 'test'
+            },
+
+            bounces:false
+        });
+      });
+
+      }
+</script>
+
+
+</body>
+</html>

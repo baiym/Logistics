@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+    <meta content="black" name=" apple-mobile-web-app-capable" />
+    <title>下单2</title>
+    <meta name="keywords" content="关键词">
+    <meta name="description" content="网站描述">
+    <link href="../css/api.css" rel="stylesheet" />
+    <link href="../css/common.css" rel="stylesheet" />
+    <link href="../css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/swiper.css">
+    <link href="../css/city-picker.css" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+    <!--头部-->
+    <header>
+        <div class="in_top">
+            <div class="top_left">
+                <a href="javascript:;" class="reSP">
+                    <span></span>
+                </a>
+            </div>
+            <div class="top_con">
+                <h2>下单</h2>
+            </div>
+
+        </div>
+    </header>
+    <!--头部End-->
+    <div class="container" id="root">
+        <div class="order_Deta add_adfix2">
+            <div class="D_title">
+                <span :class="type == 1 ? 'active li span1 span_SW' : 'span1 span_SW'" @click="getLines(1)">综合排序</span>
+                <span :class="type == 3 ? 'active li span1 span_SW' : 'span1 span_SW'" @click="getLines(3)">时间</span>
+                <span :class="type == 2 ? 'active li span1 span_SW' : 'span1 span_SW'" @click="getLines(2)">价格</span>
+            </div>
+            <div class="D_list con ">
+                <ul>
+                    <li v-for="(item,index) of lineList">
+                        <h2>{{item.delivery_cycle}}，{{item.mini_name}} <a href="javascript:;">联系商家</a></h2>
+                        <div class="DC">
+                            <a href="javascript:;" class="order_deta" @click="toDate(item.id)">
+                                <h3 :style="{ 'background-image': 'url(' + HOST+item.logo + ')','background-repeat':'no-repeat','background-size':'3rem' }"></h3>
+                                <h4><span class="span1"><em>始</em>{{item.start.province}}</span><span class="span2"><em>终</em>{{item.end.province}}</span></h4>
+                                <h5><span class="span1">{{item.start.city}}</span><span class="span2">{{item.end.city}}</span></h5>
+                            </a>
+                        </div>
+                        <h6><span class="span1">好评率 <em>{{item.praise}}</em></span> <span class="span2"><em>{{item.price}}</em> 起</span> <span class="span3" :data-id="item.id" @click="collection(item.id)">收藏线路</span></h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../script/api.js"></script>
+    <script src="../script/swiper.js"></script>
+    <script src="../script/app.js"></script>
+    <script src="../script/jquery.js"></script>
+    <script src="../script/city-picker.data.js"></script>
+    <script src="../script/city-picker.js"></script>
+    <script src="../script/public.js"></script>
+    <script src="../script/vue.js"></script>
+    <script>
+        $(function() {
+
+            $(".order_Deta .D_list ul li h6 .span3").on("click", function() {
+                $(this).toggleClass("active")
+            })
+            //
+            // //下单时间价格之间的切换
+            // $('.order_Deta .D_title span').on("click", function() {
+            //     $(this).toggleClass("active li").siblings().removeClass("active li");
+            //     $(".D_list").eq($(this).index()).show().siblings(".D_list").hide();
+            // })
+            //
+            // $(".order_Deta .D_title span").on("click", function() {
+            //     $(this).addClass("active").siblings().removeClass("active");
+            // })
+            //
+            // //高低切换
+            // $('.order_Deta .D_title .span_SW').click(function() {
+            //     $(this).toggleClass('a').siblings().removeClass("a");
+            // })
+
+            // $(".span_SW").click(function() {
+            //     $(".Big_Small").toggle()
+            // });
+        })
+
+        apiready = function() {
+            api.parseTapmode();
+
+            var header = $api.dom('header'); // 获取 header 标签元素
+            var footer = $api.dom('footer'); // 获取 footer 标签元素
+            var section = $api.dom('.container');
+            var sectionH = $api.fixStatusBar(section);
+            var headerH = $api.fixStatusBar(header);
+            //最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+            var footerH = $api.fixTabBar(footer);
+            var data = api.pageParam;
+            console.log(JSON.stringify(data));
+
+            var vm = new Vue({
+                el: '#root',
+                data: {
+                    type:1,
+                    lineList: [],
+                    HOST:'http://www.7j-wl.com/'
+                },
+                methods: {
+                    //to_date
+                    toDate:function(lineId){
+                      api.openWin({
+                          name: 'order_deta',
+                          url: 'order_deta.html',
+                          pageParam: {
+                              lineId: lineId
+                          },
+                          bounces: false
+                      });
+                    },
+                    //收藏线路 /api/Order/collection
+                    collection: function(lineId) {
+                        var appToken = $api.getStorage('appToken');
+                        // var url = HOST + '/api/Order/collection?appToken=' + appToken + '';
+                        var url = HOST + '/api/Order/collection';
+                        var _this = this;
+                        api.ajax({
+                            url: url,
+                            method: 'post',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            data: {
+                                values: {
+                                    appToken: appToken,
+                                    lineId:lineId
+                                }
+                            }
+                        }, function(ret, err) {
+                            if (ret) {
+                                // alert(JSON.stringify(ret));
+                                if(ret && ret.code == 1){
+                                  alert(ret.msg)
+                                }
+                            } else {
+                                alert(JSON.stringify(err));
+                            }
+                        });
+                    },
+                    //查询线路 /api/index/getLines
+                    getLines: function(order) {
+                        api.showProgress({
+                            title: '努力加载中...',
+                        });
+                        var data = api.pageParam;
+                        var start = data.start;
+                        var end = data.end;
+                        var volume = data.volume;
+                        var weight = data.weight;
+                        var page = 1;
+                        var limit = 100;
+                        // var order = 1; //	2为价格升序,3为发车周期时间升序.1或者不传为综合排序,
+                        var _this = this;
+                        api.ajax({
+                            url: HOST + '/api/index/getLines',
+                            method: 'post',
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            data: {
+                                values: {
+                                    start: start,
+                                    end: end,
+                                    start: start,
+                                    volume: volume,
+                                    weight: weight,
+                                    page: page,
+                                    limit: limit,
+                                    order: order,
+                                }
+                            }
+                        }, function(ret, err) {
+                            api.hideProgress();
+                            if (ret) {
+                                _this.type = order
+                                _this.lineList = ret.data.data;
+                            } else {
+                                alert(JSON.stringify(err));
+                            }
+                        });
+                    }
+                },
+                created: function() {
+                    //	2为价格升序,3为发车周期时间升序.1或者不传为综合排序,
+                    this.getLines(1);
+                }
+            })
+
+            api.addEventListener({
+                name: 'keyback'
+            }, function(ret, err) {
+                if (ret) {
+                    api.closeWin({
+                        name: 'order_2'
+                    });
+                }
+            });
+
+            $('.reSP').bind('click', function() {
+                api.closeWin({
+                    name: 'order_2'
+                });
+
+            });
+            $('.order_deta').bind('click', function() {
+                api.openWin({
+                    name: 'order_deta',
+                    url: 'order_deta.html',
+                    pageParam: {
+                        name: 'test'
+                    },
+
+                    bounces: false
+                });
+            });
+
+        }
+    </script>
+
+</body>
+
+</html>
